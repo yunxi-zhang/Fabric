@@ -70,7 +70,7 @@ Organizations:
             # AnchorPeers defines the location of peers which can be used
             # for cross org gossip communication.  Note, this value is only
             # encoded in the genesis block in the Application section context
-            - Host: peer0.Seller.example.com
+            - Host: peer0.seller.yunxi.com
               Port: 7051
 
     - &Buyer
@@ -81,7 +81,7 @@ Organizations:
         # ID to load the MSP definition as
         ID: BuyerMSP
 
-        MSPDir: crypto-config/peerOrganizations/buyer.example.com/msp
+        MSPDir: crypto-config/peerOrganizations/buyer.yunxi.com/msp
 
         # Policies defines the set of policies at this level of the config tree
         # For organization policies, their canonical path is usually
@@ -101,7 +101,7 @@ Organizations:
             # AnchorPeers defines the location of peers which can be used
             # for cross org gossip communication.  Note, this value is only
             # encoded in the genesis block in the Application section context
-            - Host: peer0.Buyer.example.com
+            - Host: peer0.buyer.yunxi.com
               Port: 7051
 
 ################################################################################

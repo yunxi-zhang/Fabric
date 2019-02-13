@@ -5,6 +5,7 @@
 bin/
 config/
 crypto-config/
+channel-artifacts/
 
 ### macOS ###
 # General

@@ -29,12 +29,18 @@ ls -al scripts
 echo -e "\x1b[33mStep 7: Run All Other Shell Files In This Project \x1b[0m "
 # export this variable so the sub shell files can use it
 export CHANNELNAME="channel4"
-./step1_downloadbin.sh
-./step2_generateKey.sh
-./step3_generateConfigTx.sh
-./step4_runDockerCompose.sh
-./step5_step5_putChannelConfigTxToContainer.sh
+./stage1_downloadbin.sh
+./stage2_generateKey.sh
+./stage3_generateConfigTx.sh
+./stage4_runDockerCompose.sh
 
 # Step 8: show all the running docker containers
 echo -e "\x1b[33mStep 8: Show All The Running Docker Containers \x1b[0m "
 docker ps 
+
+
+echo -e "\x1b[33mSleep for 20s \x1b[0m "
+sleep 20
+echo -e "\x1b[33mEnd of sleep for 20s \x1b[0m "
+# stage 5 runs only after docker containers are running
+./stage5_putChannelConfigTxToContainer.sh

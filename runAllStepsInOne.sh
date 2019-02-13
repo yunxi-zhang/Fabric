@@ -23,3 +23,6 @@ ls -al crypo-config
 ./step2_generateKey.sh
 ./step3_generateConfigTx.sh
 ./step4_runDockerCompose.sh
+
+# show all the running docker containers
+docker ps 

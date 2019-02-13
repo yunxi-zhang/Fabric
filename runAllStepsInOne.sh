@@ -3,7 +3,7 @@
 # comment them out if this is not the right intention to do
 
 # Step 1: stop all current docker containers including those not in this project
-docker stop -f $(docker ps -aq)
+docker stop $(docker ps -aq)
 # Step 2: remove all docker containers
 docker rm -f $(docker ps -aq)
 # Step 3: remove all docker images

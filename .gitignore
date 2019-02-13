@@ -2,9 +2,9 @@
 # Edit at https://www.gitignore.io/?templates=macos
 
 ### Fabric ###
-.bin/
-.config/
-.crypto-config/
+bin/
+config/
+crypto-config/
 
 ### macOS ###
 # General

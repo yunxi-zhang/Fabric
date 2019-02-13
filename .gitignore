@@ -1,6 +1,11 @@
 # Created by https://www.gitignore.io/api/macos
 # Edit at https://www.gitignore.io/?templates=macos
 
+### Fabric ###
+./bin/
+./config/
+./crypto-config
+
 ### macOS ###
 # General
 .DS_Store

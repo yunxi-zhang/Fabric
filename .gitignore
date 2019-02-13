@@ -6,6 +6,7 @@ bin/
 config/
 crypto-config/
 channel-artifacts/
+scripts/
 
 ### macOS ###
 # General

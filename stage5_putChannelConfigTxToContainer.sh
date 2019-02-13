@@ -1,5 +1,11 @@
 #!/bin/bash
 echo -e "\x1b[33mCreate A Channel \x1b[0m "
 docker exec -it cli peer channel create -o orderer.yunxi.com:7050 -c $CHANNELNAME -f ./channel-artifacts/channel.tx --tls --cafile /opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/ordererOrganizations/yunxi.com/orderers/orderer.yunxi.com/msp/tlscacerts/tlsca.yunxi.com-cert.pem
-echo -e "\x1b[33mA Peer Joins A Channel \x1b[0m "
+echo -e "\x1b[33mPeer0 of Seller Joins This Channel \x1b[0m "
 docker exec -it cli peer channel join -b $CHANNELNAME.block
+echo -e "\x1b[33mPeer0 of Buyer Joins This Channel \x1b[0m "
+docker exec -it -e CORE_PEER_MSPCONFIGPATH=/opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/peerOrganizations/buyer.yunxi.com/users/Admin@buyer.yunxi.com/msp -e CORE_PEER_ADDRESS=peer0.buyer.yunxi.com:7051 -e CORE_PEER_LOCALMSPID="BuyerMSP" -e CORE_PEER_TLS_ROOTCERT_FILE=/opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/peerOrganizations/buyer.yunxi.com/peers/peer0.buyer.yunxi.com/tls/ca.crt cli peer channel join -b $CHANNELNAME.block
+echo -e "\x1b[33mUpdate Anchor Peer For Seller \x1b[0m "
+docker exec -it cli peer channel update -o orderer.yunxi.com:7050 -c $CHANNELNAME -f ./channel-artifacts/sellerMSPanchors.tx --tls --cafile /opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/ordererOrganizations/yunxi.com/orderers/orderer.yunxi.com/msp/tlscacerts/tlsca.yunxi.com-cert.pem
+echo -e "\x1b[33mUpdate Anchor Peer For Buyer \x1b[0m "
+docker exec -it -e CORE_PEER_MSPCONFIGPATH=/opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/peerOrganizations/buyer.yunxi.com/users/Admin@buyer.yunxi.com/msp -e CORE_PEER_ADDRESS=peer0.buyer.yunxi.com:7051 -e CORE_PEER_LOCALMSPID="BuyerMSP" -e CORE_PEER_TLS_ROOTCERT_FILE=/opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/peerOrganizations/buyer.yunxi.com/peers/peer0.buyer.yunxi.com/tls/ca.crt cli peer channel update -o orderer.yunxi.com:7050 -c $CHANNELNAME -f ./channel-artifacts/BuyerMSPanchors.tx --tls --cafile /opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/ordererOrganizations/yunxi.com/orderers/orderer.yunxi.com/msp/tlscacerts/tlsca.yunxi.com-cert.pem

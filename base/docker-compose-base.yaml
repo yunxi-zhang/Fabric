@@ -1,0 +1,70 @@
+version: '2'
+
+services:
+
+  orderer.yunxi.com:
+    container_name: orderer.yunxi.com
+    image: hyperledger/fabric-orderer:$IMAGE_TAG
+    environment:
+      - FABRIC_LOGGING_SPEC=INFO
+      - ORDERER_GENERAL_LISTENADDRESS=0.0.0.0
+      - ORDERER_GENERAL_GENESISMETHOD=file
+      - ORDERER_GENERAL_GENESISFILE=/var/hyperledger/orderer/orderer.genesis.block
+      - ORDERER_GENERAL_LOCALMSPID=OrdererMSP
+      - ORDERER_GENERAL_LOCALMSPDIR=/var/hyperledger/orderer/msp
+      # enabled TLS
+      - ORDERER_GENERAL_TLS_ENABLED=true
+      - ORDERER_GENERAL_TLS_PRIVATEKEY=/var/hyperledger/orderer/tls/server.key
+      - ORDERER_GENERAL_TLS_CERTIFICATE=/var/hyperledger/orderer/tls/server.crt
+      - ORDERER_GENERAL_TLS_ROOTCAS=[/var/hyperledger/orderer/tls/ca.crt]
+      - ORDERER_KAFKA_TOPIC_REPLICATIONFACTOR=1
+      - ORDERER_KAFKA_VERBOSE=true
+    working_dir: /opt/gopath/src/github.com/hyperledger/fabric
+    command: orderer
+    volumes:
+    - ../channel-artifacts/genesis.block:/var/hyperledger/orderer/orderer.genesis.block
+    - ../crypto-config/ordererOrganizations/yunxi.com/orderers/orderer.yunxi.com/msp:/var/hyperledger/orderer/msp
+    - ../crypto-config/ordererOrganizations/yunxi.com/orderers/orderer.yunxi.com/tls/:/var/hyperledger/orderer/tls
+    - ../crypto-config/ordererOrganizations/yunxi.com/orderers/orderer.yunxi.com:/var/hyperledger/production/orderer
+    ports:
+      - 7050:7050
+
+  peer0.seller.yunxi.com:
+    container_name: peer0.seller.yunxi.com
+    extends:
+      file: peer-base.yaml
+      service: peer-base
+    environment:
+      - CORE_PEER_ID=peer0.seller.yunxi.com
+      - CORE_PEER_ADDRESS=peer0.seller.yunxi.com:7051
+      - CORE_PEER_GOSSIP_BOOTSTRAP=peer0.seller.yunxi.com:7051
+      - CORE_PEER_GOSSIP_EXTERNALENDPOINT=peer0.seller.yunxi.com:7051
+      - CORE_PEER_LOCALMSPID=SellerMSP
+    volumes:
+        - /var/run/:/host/var/run/
+        - ../crypto-config/peerOrganizations/seller.yunxi.com/peers/peer0.seller.yunxi.com/msp:/etc/hyperledger/fabric/msp
+        - ../crypto-config/peerOrganizations/seller.yunxi.com/peers/peer0.seller.yunxi.com/tls:/etc/hyperledger/fabric/tls
+        - ../crypto-config/peerOrganizations/seller.yunxi.com/peers/peer0.seller.yunxi.com:/var/hyperledger/production
+    ports:
+      - 7051:7051
+      - 7053:7053
+
+  peer0.buyer.yunxi.com:
+    container_name: peer0.buyer.yunxi.com
+    extends:
+      file: peer-base.yaml
+      service: peer-base
+    environment:
+      - CORE_PEER_ID=peer0.buyer.yunxi.com
+      - CORE_PEER_ADDRESS=peer0.buyer.yunxi.com:7051
+      - CORE_PEER_GOSSIP_EXTERNALENDPOINT=peer0.buyer.yunxi.com:7051
+      - CORE_PEER_GOSSIP_BOOTSTRAP=peer1.buyer.yunxi.com:7051
+      - CORE_PEER_LOCALMSPID=BuyerMSP
+    volumes:
+        - /var/run/:/host/var/run/
+        - ../crypto-config/peerOrganizations/buyer.yunxi.com/peers/peer0.buyer.yunxi.com/msp:/etc/hyperledger/fabric/msp
+        - ../crypto-config/peerOrganizations/buyer.yunxi.com/peers/peer0.buyer.yunxi.com/tls:/etc/hyperledger/fabric/tls
+        - ../crypto-config/peerOrganizations/buyer.yunxi.com/peers/peer0.buyer.yunxi.com:/var/hyperledger/production
+    ports:
+      - 9051:7051
+      - 9053:7053

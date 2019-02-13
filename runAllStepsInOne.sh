@@ -27,6 +27,7 @@ ls -al scripts
 
 # Step 7: run all other shell files for this project
 echo -e "\x1b[33mStep 7: Run All Other Shell Files In This Project \x1b[0m "
+# export this variable so the sub shell files can use it
 export CHANNELNAME="channel2"
 ./step1_downloadbin.sh
 ./step2_generateKey.sh

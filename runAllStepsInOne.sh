@@ -16,13 +16,14 @@ echo -e "\x1b[33mStep 4: Show docker images \x1b[0m "
 docker images
 # Step 5: remove all the files that will be generated in this project if they exist
 echo -e "\x1b[33mStep 5: Remove all the files that will be generated in this project if they exist \x1b[0m "
-rm -rf bin channel-artifacts config crypo-config
+rm -rf bin channel-artifacts config crypo-config scripts
 # Step 6: show these files do not exist
 echo -e "\x1b[33mStep 6: Show these files do not exist \x1b[0m "
 ls -al bin
 ls -al channel-artifacts 
 ls -al config
 ls -al crypo-config
+ls -al scripts
 
 # Step 7: run all other shell files for this project
 echo -e "\x1b[33mStep 7: Run all other shell files for this project \x1b[0m "

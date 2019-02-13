@@ -8,6 +8,8 @@ docker stop $(docker ps -aq)
 docker rm -f $(docker ps -aq)
 # Step 3: remove all docker images
 docker rmi -f $(docker images -aq)
+# Step 4: show docker images
+docker images
 
 # run all other shell files for this project
 ./step1_downloadbin.sh

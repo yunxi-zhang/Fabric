@@ -10,6 +10,13 @@ docker rm -f $(docker ps -aq)
 docker rmi -f $(docker images -aq)
 # Step 4: show docker images
 docker images
+# Step 5: remove all the files that will be generated in this project if they exist
+rm -rf bin channel-artifacts config crypo-config
+# Step 6: show these files do not exist
+ls -al bin
+ls -al channel-artifacts 
+ls -al config
+ls -al crypo-config
 
 # run all other shell files for this project
 ./step1_downloadbin.sh

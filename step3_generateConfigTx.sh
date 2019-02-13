@@ -1,4 +1,5 @@
 #!/bin/bash
+echo -e "\x1b[33mGenerate Configuration Transaction Artifacts \x1b[0m "
 mkdir ./channel-artifacts
 # generate the genesis block
 ./bin/configtxgen -configPath ./ -profile TwoOrgsOrdererGenesis -channelID seller-buyer-channel -outputBlock ./channel-artifacts/genesis.block 

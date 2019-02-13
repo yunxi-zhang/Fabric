@@ -1,6 +1,6 @@
 
 #!/bin/bash
-
+echo -e "\x1b[33mDownload Bins And Config Folders For Hyperledger Fabric \x1b[0m "
 export VERSION=1.4.0
 export ARCH=$(echo "$(uname -s|tr '[:upper:]' '[:lower:]'|sed 's/mingw64_nt.*/windows/')-$(uname -m | sed 's/x86_64/amd64/g')" | awk '{print tolower($0)}')
 

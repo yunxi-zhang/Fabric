@@ -30,7 +30,7 @@ echo -e "\x1b[33mStep 7: Run All Other Shell Files In This Project \x1b[0m "
 # export this variable so the sub shell files can use it
 echo -e "\x1b[33mPleaes type in a channel name \x1b[0m "
 read channelName
-echo -e "\x1b[33mChannel name is $channelName\x1b[0m "
+echo -e "\x1b[33mThe channel name you just typed in: $channelName\x1b[0m "
 export CHANNELNAME=$channelName
 ./stage1_downloadbin.sh
 ./stage2_generateKey.sh

@@ -38,7 +38,7 @@ stepInfo "Step 8: Run All Other Shell Files In This Project"
 stepInfo "Pleaes type in a channel name"
 read channelName
 stepInfo "The channel name you just typed in: $channelName" 
-export CHANNELNAME=$channelName
+export CHANNEL_NAME=$channelName
 ./stage1_downloadbin.sh
 ./stage2_generateKey.sh
 ./stage3_generateConfigTx.sh

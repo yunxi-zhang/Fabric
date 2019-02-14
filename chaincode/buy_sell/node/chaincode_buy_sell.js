@@ -1,6 +1,7 @@
 'use strict';
 
 const shim = require('fabric-shim');
+const util = require('util');
 
 const Chaincode = class {
 
@@ -10,17 +11,31 @@ const Chaincode = class {
 
         //await stub.putState(key, Buffer.from(args[0]));
         // save the initial states
-        await stub.putState(key, Buffer.from('a test value'));
-        return shim.success(Buffer.from('Initialised Successfully!'));
+        return stub.putState('dummykey', Buffer.from('dummyValue'))
+                    .then(() => {
+                        console.info('Chaincode instantiation is successful');
+                        return shim.success();
+                    }), () => {
+                        return shim.error();
+                    };
     }
 
     async Invoke(stub) {
+        console.info('Transaction ID: ' + stub.getTxID());
+        console.info(util.format('Args: %j', stub.getArgs()));
 
-        // retrieve existing chaincode states
-        let oldValue = await stub.getState(key);
-        let newValue = oldValue + " plus a new value";
-        await stub.putState(key, Buffer.from(newValue));
-        return shim.success(Buffer.from(newValue.toString()));
+        let ret = stub.getFunctionAndParameters();
+        console.info('Calling function: ' + ret.fcn);
+        return stub.getState('dummyKey')
+            .then((value) => {
+                if (value.toString === 'dummyValue') {
+                    console.info(util.format('successfully retrieved value "%j" for the key "dummyKey"', value));
+                    return shim.success();
+                } else {
+                    console.error('Failed to retrieve dummyKey or the retrieved value is not expected: ' + value);
+                    return shim.error();
+                }
+            })
     }
 };
 

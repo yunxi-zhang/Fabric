@@ -1,3 +1,3 @@
 #!/bin/bash
-echo -e "\x1b[33mRun Docker Containers By Using The Docker Compose File \x1b[0m "
+stepInfo "Run Docker Containers By Using The Docker Compose File"
 docker-compose -f docker-compose-cli.yaml up -d

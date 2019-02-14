@@ -1,4 +1,8 @@
 #!/bin/bash
+
+# import common.sh
+source ./common.sh
+
 stepInfo "Generate Configuration Transaction Artifacts"
 mkdir ./channel-artifacts
 # generate the genesis block

@@ -1,4 +1,8 @@
 #!/bin/bash
+
+# import common.sh
+source ./common.sh
+
 stepInfo "Create A Channel"
 docker exec -it cli peer channel create -o orderer.yunxi.com:7050 -c $CHANNELNAME -f ./channel-artifacts/channel.tx --tls --cafile /opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/ordererOrganizations/yunxi.com/orderers/orderer.yunxi.com/msp/tlscacerts/tlsca.yunxi.com-cert.pem
 stepInfo "Peer0 of Seller Joins This Channel"

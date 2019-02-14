@@ -1,5 +1,8 @@
-
 #!/bin/bash
+
+# import common.sh
+source ./common.sh
+
 stepInfo "Download Bins And Config Folders For Hyperledger Fabric"
 export VERSION=1.4.0
 export ARCH=$(echo "$(uname -s|tr '[:upper:]' '[:lower:]'|sed 's/mingw64_nt.*/windows/')-$(uname -m | sed 's/x86_64/amd64/g')" | awk '{print tolower($0)}')

@@ -63,7 +63,7 @@ Organizations:
                 Rule: "OR('SellerMSP.admin', 'SellerMSP.client')"
             Admins:
                 Type: Signature
-                Rule: "OR('SellerMSP.admin')"
+                Rule: "OR('SellerMSP.admin', 'SellerMSP.peer')"
 
         # leave this flag set to true.
         AnchorPeers:
@@ -95,7 +95,7 @@ Organizations:
                 Rule: "OR('BuyerMSP.admin', 'BuyerMSP.client')"
             Admins:
                 Type: Signature
-                Rule: "OR('BuyerMSP.admin')"
+                Rule: "OR('BuyerMSP.admin', 'BuyerMSP.peer')"
 
         AnchorPeers:
             # AnchorPeers defines the location of peers which can be used

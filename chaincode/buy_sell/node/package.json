@@ -1,7 +1,7 @@
 {
   "name": "chaincode_buy_sell",
   "version": "1.0.0",
-  "description": "",
+  "description": "First chaincode",
   "main": "chaincode_buy_sell.js",
   "dependencies": {
     "fabric-contract-api": "^1.4.0",
@@ -13,6 +13,6 @@
     "start": "node chaincode_buy_sell",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "author": "",
+  "author": "Yunxi Zhang",
   "license": "ISC"
 }

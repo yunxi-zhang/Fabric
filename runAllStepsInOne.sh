@@ -53,3 +53,6 @@ sleep 10
 stepInfo "End of sleeping"
 # stage 5 runs only after docker containers are running
 ./stage5_putChannelConfigTxToContainer.sh
+
+# stage 6: install chaincode on peers 
+./stage6_installChaincode.sh

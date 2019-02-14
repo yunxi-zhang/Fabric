@@ -1,9 +1,13 @@
 #!/bin/bash
+
+# import common.sh
+source ./common.sh
+
 # The steps 1-3 will remove all docker iamges in a machine
 # comment them out if this is not the right intention to do
 
 # Step 1: stop all current docker containers including those not in this project
-echo -e "\x1b[33mStep 1: Stop All Current Docker Containers Including Those Are Not In This Project \x1b[0m "
+stepInfo "Step 1: Stop All Current Docker Containers Including Those Are Not In This Project"
 docker stop $(docker ps -aq)
 # Step 2: remove all docker containers
 echo -e "\x1b[33mStep 2: Remove All Docker Containers \x1b[0m "

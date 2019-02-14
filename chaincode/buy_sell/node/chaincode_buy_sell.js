@@ -9,7 +9,6 @@ const Chaincode = class {
         let args = stub.getFunctionAndParameters().params;
         console.log(args);
 
-        //await stub.putState(key, Buffer.from(args[0]));
         // save the initial states
         return stub.putState('dummykey', Buffer.from('dummyValue'))
                     .then(() => {

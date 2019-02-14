@@ -45,6 +45,7 @@ services:
         - ../crypto-config/peerOrganizations/seller.yunxi.com/peers/peer0.seller.yunxi.com/msp:/etc/hyperledger/fabric/msp
         - ../crypto-config/peerOrganizations/seller.yunxi.com/peers/peer0.seller.yunxi.com/tls:/etc/hyperledger/fabric/tls
         - ../crypto-config/peerOrganizations/seller.yunxi.com/peers/peer0.seller.yunxi.com:/var/hyperledger/production
+        - ./chaincode/:/opt/gopath/src/github.com/chaincode
     ports:
       - 7051:7051
       - 7053:7053
@@ -65,6 +66,7 @@ services:
         - ../crypto-config/peerOrganizations/buyer.yunxi.com/peers/peer0.buyer.yunxi.com/msp:/etc/hyperledger/fabric/msp
         - ../crypto-config/peerOrganizations/buyer.yunxi.com/peers/peer0.buyer.yunxi.com/tls:/etc/hyperledger/fabric/tls
         - ../crypto-config/peerOrganizations/buyer.yunxi.com/peers/peer0.buyer.yunxi.com:/var/hyperledger/production
+        - ./chaincode/:/opt/gopath/src/github.com/chaincode
     ports:
       - 9051:7051
       - 9053:7053

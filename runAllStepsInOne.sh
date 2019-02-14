@@ -18,19 +18,22 @@ docker rmi -f $(docker images -aq)
 # Step 4: show docker images
 stepInfo "Step 4: Show Docker Images"
 docker images
-# Step 5: remove all the files that will be generated in this project if they exist
-stepInfo "Step 5: Remove All The Files That Will Be Generated In This Project If They Exist"
+# Step 5: remove all docker info
+stepInfo "Step 5: Clean All Docker Info"
+docker system prune --all --force --volumes 
+# Step 6: remove all the files that will be generated in this project if they exist
+stepInfo "Step 6: Remove All The Files That Will Be Generated In This Project If They Exist"
 rm -rf bin channel-artifacts config crypo-config scripts
-# Step 6: show these files do not exist
-stepInfo "Step 6: Show That These Files Do Not Exist"
+# Step 7: show these files do not exist
+stepInfo "Step 7: Show That These Files Do Not Exist"
 ls -al bin
 ls -al channel-artifacts 
 ls -al config
 ls -al crypo-config
 ls -al scripts
 
-# Step 7: run all other shell files for this project
-stepInfo "Step 7: Run All Other Shell Files In This Project"
+# Step 8: run all other shell files for this project
+stepInfo "Step 8: Run All Other Shell Files In This Project"
 # export this variable so the sub shell files can use it
 stepInfo "Pleaes type in a channel name"
 read channelName
@@ -41,8 +44,8 @@ export CHANNELNAME=$channelName
 ./stage3_generateConfigTx.sh
 ./stage4_runDockerCompose.sh
 
-# Step 8: show all the running docker containers
-stepInfo "Step 8: Show All The Running Docker Containers"
+# Step 9: show all the running docker containers
+stepInfo "Step 9: Show All The Running Docker Containers"
 docker ps 
 
 stepInfo "Sleeping for 10 seconds ..."

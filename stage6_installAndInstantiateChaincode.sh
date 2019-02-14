@@ -14,7 +14,7 @@ read CHAINCODE_NAME
 stepInfo "The received chaincode name is: $CHAINCODE_NAME"
 
 stepInfo "Install Chaincode On Peer0 Of Seller"
-docker exec -vit cli peer chaincode install -n $CHAINCODE_NAME -v $CHAINCODE_VERSION -l node -p /opt/gopath/src/github.com/chaincode/buy_sell/node/
+docker exec -it cli peer chaincode install -n $CHAINCODE_NAME -v $CHAINCODE_VERSION -l node -p /opt/gopath/src/github.com/chaincode/buy_sell/node/
 stepInfo "Install Chaincode On Peer0 Of Buyer"
 docker exec -it cli peer chaincode install -n $CHAINCODE_NAME -v $CHAINCODE_VERSION -l node -p /opt/gopath/src/github.com/chaincode/buy_sell/node/
 

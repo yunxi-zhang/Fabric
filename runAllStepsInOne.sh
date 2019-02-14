@@ -55,4 +55,4 @@ stepInfo "End of sleeping"
 ./stage5_putChannelConfigTxToContainer.sh
 
 # stage 6: install chaincode on peers 
-./stage6_installChaincode.sh
+./stage6_installAndInstantiateChaincode.sh

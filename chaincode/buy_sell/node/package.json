@@ -5,7 +5,8 @@
   "main": "chaincode_buy_sell.js",
   "dependencies": {
     "fabric-contract-api": "^1.4.0",
-    "fabric-shim": "^1.4.0"
+    "fabric-shim": "^1.4.0",
+    "grpc": "^1.18.0"
   },
   "devDependencies": {},
   "scripts": {

@@ -18,13 +18,31 @@ stepInfo "Please type in a build language, can only be (1) golang (2) node and (
 read BUILD_LANGUAGE
 stepInfo "The received build language is: $BUILD_LANGUAGE"
 
-CHAINCODE_PATH="/opt/gopath/src/github.com/chaincode/buy_sell"
+# Golang uses a relative path, and the ABSOLUTE_PATH_PREFIX will be auto added to the CHAINCODE_PATH
+# ABSOLUTE_PATH_PREFIX is only used when node or java has been selected as the build language
+ABSOLUTE_PATH_PREFIX="/opt/gopath/src"
+CHAINCODE_PATH="github.com/chaincode/buy_sell"
 stepInfo "Chaincode file is in the path: $CHAINCODE_PATH"
 
 stepInfo "Install Chaincode On Peer0 Of Seller"
-docker exec -it cli peer chaincode install -n $CHAINCODE_NAME -v $CHAINCODE_VERSION -l $BUILD_LANGUAGE -p $CHAINCODE_PATH/$BUILD_LANGUAGE/
+if [ $BUILD_LANGUAGE = "golang" ]
+then 
+    stepInfo "Use The Relative Path"
+    docker exec -it cli peer chaincode install -n $CHAINCODE_NAME -v $CHAINCODE_VERSION -l $BUILD_LANGUAGE -p $CHAINCODE_PATH/$BUILD_LANGUAGE/
+else
+    stepInfo "Use The Absolute Path"
+    docker exec -it cli peer chaincode install -n $CHAINCODE_NAME -v $CHAINCODE_VERSION -l $BUILD_LANGUAGE -p $ABSOLUTE_PATH_PREFIX/$CHAINCODE_PATH/$BUILD_LANGUAGE/
+fi
+
 stepInfo "Install Chaincode On Peer0 Of Buyer"
-docker exec -it cli peer chaincode install -n $CHAINCODE_NAME -v $CHAINCODE_VERSION -l $BUILD_LANGUAGE -p $CHAINCODE_PATH/$BUILD_LANGUAGE/
+if [ $BUILD_LANGUAGE = "golang" ]
+then 
+    stepInfo "Use The Relative Path"
+    docker exec -it cli peer chaincode install -n $CHAINCODE_NAME -v $CHAINCODE_VERSION -l $BUILD_LANGUAGE -p $CHAINCODE_PATH/$BUILD_LANGUAGE/
+else
+    stepInfo "Use The Absolute Path"
+    docker exec -it cli peer chaincode install -n $CHAINCODE_NAME -v $CHAINCODE_VERSION -l $BUILD_LANGUAGE -p $ABSOLUTE_PATH_PREFIX/$CHAINCODE_PATH/$BUILD_LANGUAGE/
+fi
 
 stepInfo "Instantiate Chaincode"
 docker exec -it cli peer chaincode instantiate -o orderer.yunxi.com:7050 --tls --cafile /opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/ordererOrganizations/yunxi.com/orderers/orderer.yunxi.com/msp/tlscacerts/tlsca.yunxi.com-cert.pem -C $CHANNEL_NAME -n $CHAINCODE_NAME -l $BUILD_LANGUAGE -v $CHAINCODE_VERSION -c '{"Args":["init"]}' -P "AND ('SellerMSP.peer','BuyerMSP.peer')"

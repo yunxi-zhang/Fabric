@@ -62,7 +62,9 @@ else
 fi
 
 stepInfo "Run Chaincode on node"
-docker exec -it cli CORE_CHAINCODE_ID_NAME=$CHAINCODE_NAME:$CHAINCODE_VERSION node /opt/gopath/src/github.com/chaincode/buy_sell/node/chaincode_buy_sell.js --peer.address grpc://peer0.seller.yunxi.com:7051
+docker exec -it \
+-e CORE_CHAINCODE_ID_NAME=$CHAINCODE_NAME:$CHAINCODE_VERSION \
+cli sh -c "cd /opt/gopath/src/github.com/chaincode/buy_sell/node/ && node chaincode_buy_sell.js --peer.address grpc://peer0.seller.yunxi.com:7051"
 
 stepInfo "Instantiate Chaincode"
 docker exec -it cli peer chaincode instantiate -o orderer.yunxi.com:7050 --tls --cafile /opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/ordererOrganizations/yunxi.com/orderers/orderer.yunxi.com/msp/tlscacerts/tlsca.yunxi.com-cert.pem -C $CHANNEL_NAME -n $CHAINCODE_NAME -l $BUILD_LANGUAGE -v $CHAINCODE_VERSION -c '{"Args":["init"]}' -P "AND ('SellerMSP.peer','BuyerMSP.peer')"

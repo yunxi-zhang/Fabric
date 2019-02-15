@@ -48,8 +48,8 @@ export CHANNEL_NAME=$channelName
 stepInfo "Step 9: Show All The Running Docker Containers"
 docker ps 
 
-stepInfo "Sleeping for 10 seconds ..."
-sleep 10
+stepInfo "Sleeping for 5 seconds ..."
+sleep 5
 stepInfo "End of sleeping"
 # stage 5 runs only after docker containers are running
 ./stage5_putChannelConfigTxToContainer.sh

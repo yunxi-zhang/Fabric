@@ -40,7 +40,14 @@ if [ $BUILD_LANGUAGE = "golang" ]
 then 
     stepInfo "Use The Relative Path"
     stepInfo "Chaincode file is in the path: $CHAINCODE_PATH/$BUILD_LANGUAGE/"
-    docker exec -it cli peer chaincode install -n $CHAINCODE_NAME -v $CHAINCODE_VERSION -l $BUILD_LANGUAGE -p $CHAINCODE_PATH/$BUILD_LANGUAGE/
+    docker exec -it \
+    -e CORE_PEER_MSPCONFIGPATH=/opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/peerOrganizations/buyer.yunxi.com/users/Admin@buyer.yunxi.com/msp \
+    -e CORE_PEER_ADDRESS=peer0.buyer.yunxi.com:7051 \
+    -e CORE_PEER_LOCALMSPID=BuyerMSP \
+    -e CORE_PEER_TLS_ROOTCERT_FILE=/opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/peerOrganizations/buyer.yunxi.com/peers/peer0.buyer.yunxi.com/tls/ca.crt \
+    -e CORE_PEER_TLS_KEY_FILE=/opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/peerOrganizations/buyer.yunxi.com/peers/peer0.buyer.yunxi.com/tls/server.key \
+    -e CORE_PEER_TLS_CERT_FILE=/opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/peerOrganizations/buyer.yunxi.com/peers/peer0.buyer.yunxi.com/tls/server.crt \
+    cli peer chaincode install -n $CHAINCODE_NAME -v $CHAINCODE_VERSION -l $BUILD_LANGUAGE -p $CHAINCODE_PATH/$BUILD_LANGUAGE/
 else
     stepInfo "Use The Absolute Path"
     stepInfo "Chaincode file is in the path: $ABSOLUTE_PATH_PREFIX/$CHAINCODE_PATH/$BUILD_LANGUAGE/"

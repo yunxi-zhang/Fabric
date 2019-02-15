@@ -22,25 +22,28 @@ stepInfo "The received build language is: $BUILD_LANGUAGE"
 # ABSOLUTE_PATH_PREFIX is only used when node or java has been selected as the build language
 ABSOLUTE_PATH_PREFIX="/opt/gopath/src"
 CHAINCODE_PATH="github.com/chaincode/buy_sell"
-stepInfo "Chaincode file is in the path: $CHAINCODE_PATH"
 
 stepInfo "Install Chaincode On Peer0 Of Seller"
-if [ $BUILD_LANGUAGE = "golang" ]
-then 
-    stepInfo "Use The Relative Path"
-    docker exec -it cli peer chaincode install -n $CHAINCODE_NAME -v $CHAINCODE_VERSION -l $BUILD_LANGUAGE -p $CHAINCODE_PATH/$BUILD_LANGUAGE/
-else
-    stepInfo "Use The Absolute Path"
-    docker exec -it cli peer chaincode install -n $CHAINCODE_NAME -v $CHAINCODE_VERSION -l $BUILD_LANGUAGE -p $ABSOLUTE_PATH_PREFIX/$CHAINCODE_PATH/$BUILD_LANGUAGE/
-fi
+    if [ $BUILD_LANGUAGE = "golang" ]
+    then 
+        stepInfo "Use The Relative Path"
+        stepInfo "Chaincode file is in the path: $CHAINCODE_PATH/$BUILD_LANGUAGE/"
+        docker exec -it cli peer chaincode install -n $CHAINCODE_NAME -v $CHAINCODE_VERSION -l $BUILD_LANGUAGE -p $CHAINCODE_PATH/$BUILD_LANGUAGE/
+    else
+        stepInfo "Use The Absolute Path"
+        stepInfo "Chaincode file is in the path: $ABSOLUTE_PATH_PREFIX/$CHAINCODE_PATH/$BUILD_LANGUAGE/"
+        docker exec -it cli peer chaincode install -n $CHAINCODE_NAME -v $CHAINCODE_VERSION -l $BUILD_LANGUAGE -p $ABSOLUTE_PATH_PREFIX/$CHAINCODE_PATH/$BUILD_LANGUAGE/
+    fi
 
 stepInfo "Install Chaincode On Peer0 Of Buyer"
 if [ $BUILD_LANGUAGE = "golang" ]
 then 
     stepInfo "Use The Relative Path"
+    stepInfo "Chaincode file is in the path: $CHAINCODE_PATH/$BUILD_LANGUAGE/"
     docker exec -it cli peer chaincode install -n $CHAINCODE_NAME -v $CHAINCODE_VERSION -l $BUILD_LANGUAGE -p $CHAINCODE_PATH/$BUILD_LANGUAGE/
 else
     stepInfo "Use The Absolute Path"
+    stepInfo "Chaincode file is in the path: $ABSOLUTE_PATH_PREFIX/$CHAINCODE_PATH/$BUILD_LANGUAGE/"
     docker exec -it cli peer chaincode install -n $CHAINCODE_NAME -v $CHAINCODE_VERSION -l $BUILD_LANGUAGE -p $ABSOLUTE_PATH_PREFIX/$CHAINCODE_PATH/$BUILD_LANGUAGE/
 fi
 

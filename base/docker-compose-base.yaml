@@ -22,10 +22,10 @@ services:
     working_dir: /opt/gopath/src/github.com/hyperledger/fabric
     command: orderer
     volumes:
-      - ../channel-artifacts/genesis.block:/var/hyperledger/orderer/orderer.genesis.block
-      - ../crypto-config/ordererOrganizations/yunxi.com/orderers/orderer.yunxi.com/msp:/var/hyperledger/orderer/msp
-      - ../crypto-config/ordererOrganizations/yunxi.com/orderers/orderer.yunxi.com/tls/:/var/hyperledger/orderer/tls
-      - ../crypto-config/ordererOrganizations/yunxi.com/orderers/orderer.yunxi.com:/var/hyperledger/production/orderer
+        - ../channel-artifacts/genesis.block:/var/hyperledger/orderer/orderer.genesis.block
+        - ../crypto-config/ordererOrganizations/yunxi.com/orderers/orderer.yunxi.com/msp:/var/hyperledger/orderer/msp
+        - ../crypto-config/ordererOrganizations/yunxi.com/orderers/orderer.yunxi.com/tls/:/var/hyperledger/orderer/tls
+        - ../crypto-config/ordererOrganizations/yunxi.com/orderers/orderer.yunxi.com:/var/hyperledger/production/orderer
     ports:
       - 7050:7050
 

@@ -44,15 +44,15 @@ export CHANNEL_NAME=$channelName
 ./stage3_generateConfigTx.sh
 ./stage4_runDockerCompose.sh
 
-# # Step 9: show all the running docker containers
-# stepInfo "Step 9: Show All The Running Docker Containers"
-# docker ps 
+# Step 9: show all the running docker containers
+stepInfo "Step 9: Show All The Running Docker Containers"
+docker ps 
 
-# stepInfo "Sleeping for 5 seconds ..."
-# sleep 5
-# stepInfo "End of sleeping"
-# # stage 5 runs only after docker containers are running
-# ./stage5_putChannelConfigTxToContainer.sh
+stepInfo "Sleeping for 5 seconds ..."
+sleep 5
+stepInfo "End of sleeping"
+# stage 5 runs only after docker containers are running
+./stage5_putChannelConfigTxToContainer.sh
 
-# # stage 6: install chaincode on peers 
-# ./stage6_installAndInstantiateChaincode.sh
+# stage 6: install chaincode on peers 
+./stage6_installAndInstantiateChaincode.sh

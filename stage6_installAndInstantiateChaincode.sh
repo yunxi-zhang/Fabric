@@ -73,3 +73,8 @@ docker exec -it \
 -e CORE_PEER_TLS_KEY_FILE=/opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/peerOrganizations/buyer.yunxi.com/peers/peer0.buyer.yunxi.com/tls/server.key \
 -e CORE_PEER_TLS_CERT_FILE=/opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/peerOrganizations/buyer.yunxi.com/peers/peer0.buyer.yunxi.com/tls/server.crt \
 cli peer chaincode instantiate -o orderer.yunxi.com:7050 --tls --cafile /opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/ordererOrganizations/yunxi.com/orderers/orderer.yunxi.com/msp/tlscacerts/tlsca.yunxi.com-cert.pem -C $CHANNEL_NAME -n $CHAINCODE_NAME -l $BUILD_LANGUAGE -v $CHAINCODE_VERSION -c '{"Args":["init", "a", "100", "b", "200"]}' -P "AND ('SellerMSP.peer','BuyerMSP.peer')"
+
+stepInfo "Test Invoke Function"
+INOVKE_CHAINCODE_PARAMETERS='{"Args":["dummy"]}'
+docker exec -it \
+peer chaincode invoke -o orderer.yunxi.com:7051 -C $CHANNEL_NAME -c $INOVKE_CHAINCODE_PARAMETERS -n $CHAINCODE_NAME

@@ -77,4 +77,4 @@ cli peer chaincode instantiate -o orderer.yunxi.com:7050 --tls --cafile /opt/gop
 stepInfo "Test Invoke Function"
 INOVKE_CHAINCODE_PARAMETERS='{"Args":["dummy"]}'
 docker exec -it \
-peer chaincode invoke -o orderer.yunxi.com:7051 -C $CHANNEL_NAME -c $INOVKE_CHAINCODE_PARAMETERS -n $CHAINCODE_NAME
+cli peer chaincode invoke -o orderer.yunxi.com:7051 -C $CHANNEL_NAME -c $INOVKE_CHAINCODE_PARAMETERS -n $CHAINCODE_NAME

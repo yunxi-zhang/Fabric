@@ -6,17 +6,21 @@ const util = require('util');
 const Chaincode = class {
 
     async Init(stub) {
-        let args = stub.getFunctionAndParameters().params;
-        console.log(args);
+        // let args = stub.getFunctionAndParameters().params;
+        // console.log(args);
 
-        // save the initial states
-        return stub.putState('dummykey', Buffer.from('dummyValue'))
-                    .then(() => {
-                        console.info('Chaincode instantiation is successful');
-                        return shim.success();
-                    }), () => {
-                        return shim.error();
-                    };
+        // // save the initial states
+        // return stub.putState('dummykey', Buffer.from('dummyValue'))
+        //             .then(() => {
+        //                 console.info('Chaincode instantiation is successful');
+        //                 return shim.success();
+        //             }), () => {
+        //                 return shim.error();
+        //             };
+        console.log('========= Chaincode Initialised =========');
+        const ret = stub.getFunctionAndParameters();
+        console.log(ret);
+        return shim.success();
     }
 
     async Invoke(stub) {

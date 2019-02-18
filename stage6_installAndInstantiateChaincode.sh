@@ -76,5 +76,5 @@ cli peer chaincode instantiate -o orderer.yunxi.com:7050 --tls --cafile /opt/gop
 
 stepInfo "Test Invoke Function"
 INOVKE_CHAINCODE_PARAMETERS='{"Args":["dummy"]}'
-docker exec -it \
-cli peer chaincode invoke -o orderer.yunxi.com:7050 -C $CHANNEL_NAME -c $INOVKE_CHAINCODE_PARAMETERS -n $CHAINCODE_NAME
+docker exec -it cli \
+peer chaincode invoke -o orderer.yunxi.com:7050 --tls true --cafile /opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/ordererOrganizations/yunxi.com/orderers/orderer.yunxi.com/msp/tlscacerts/tlsca.yunxi.com-cert.pem -C $CHANNEL_NAME -n $CHAINCODE_NAME --peerAddresses peer0.seller.yunxi.com:7051 --tlsRootCertFiles /opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/peerOrganizations/seller.yunxi.com/peers/peer0.seller.yunxi.com/tls/ca.crt -c $INOVKE_CHAINCODE_PARAMETERS

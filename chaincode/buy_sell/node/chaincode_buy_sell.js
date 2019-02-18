@@ -23,7 +23,7 @@ const Chaincode = class {
         return stub.getState('dummyKey')
             .then((value) => {
                 if (value.toString() === 'dummyValue') {
-                        console.info(util.format('successfully retrieved value "%j" for the key "dummyKey"', value ));
+                        console.info(value.toString());
                         return shim.success();
                 } else {
                         console.error('Failed to retrieve dummyKey or the retrieved value is not expected: ' + value);

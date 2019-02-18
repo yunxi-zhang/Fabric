@@ -61,18 +61,28 @@ else
     cli peer chaincode install -n $CHAINCODE_NAME -v $CHAINCODE_VERSION -l $BUILD_LANGUAGE -p $ABSOLUTE_PATH_PREFIX/$CHAINCODE_PATH/$BUILD_LANGUAGE/
 fi
 
-if [ $BUILD_LANGUAGE = "golang" ]
-then
-    stepInfo "Run Chaincode In Go"
-    #docker exec -it \
-    #-e CORE_CHAINCODE_ID_NAME=$CHAINCODE_NAME:$CHAINCODE_VERSION \
-    #cli sh -c "cd $CHAINCODE_PATH/$BUILD_LANGUAGE/ && node chaincode_buy_sell.js --peer.address grpc://peer0.seller.yunxi.com:7051"
-else
-    stepInfo "Run Chaincode In Node"
-    docker exec -it \
-    -e CORE_CHAINCODE_ID_NAME=$CHAINCODE_NAME:$CHAINCODE_VERSION \
-    cli sh -c "cd $ABSOLUTE_PATH_PREFIX/$CHAINCODE_PATH/$BUILD_LANGUAGE/ && node chaincode_buy_sell.js --peer.address grpc://peer0.seller.yunxi.com:7051"
-fi
+# if [ $BUILD_LANGUAGE = "golang" ]
+# then
+#     stepInfo "Run Chaincode In Go"
+#     #docker exec -it \
+#     #-e CORE_CHAINCODE_ID_NAME=$CHAINCODE_NAME:$CHAINCODE_VERSION \
+#     #cli sh -c "cd $CHAINCODE_PATH/$BUILD_LANGUAGE/ && node chaincode_buy_sell.js --peer.address grpc://peer0.seller.yunxi.com:7051"
+# else
+#     stepInfo "Run Chaincode In Node"
+#     docker exec -it \
+#     -e CORE_CHAINCODE_ID_NAME=$CHAINCODE_NAME:$CHAINCODE_VERSION \
+#     cli sh -c "cd $ABSOLUTE_PATH_PREFIX/$CHAINCODE_PATH/$BUILD_LANGUAGE/ && node chaincode_buy_sell.js --peer.address grpc://peer0.seller.yunxi.com:7051"
+# fi
 
-stepInfo "Instantiate Chaincode"
-docker exec -it cli peer chaincode instantiate -o orderer.yunxi.com:7050 --tls --cafile /opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/ordererOrganizations/yunxi.com/orderers/orderer.yunxi.com/msp/tlscacerts/tlsca.yunxi.com-cert.pem -C $CHANNEL_NAME -n $CHAINCODE_NAME -l $BUILD_LANGUAGE -v $CHAINCODE_VERSION -c '{"Args":["init"]}' -P "AND ('SellerMSP.peer','BuyerMSP.peer')"
+stepInfo "Instantiate Chaincode On Peer0 Of Seller"
+docker exec -it cli peer chaincode instantiate -o orderer.yunxi.com:7050 --tls --cafile /opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/ordererOrganizations/yunxi.com/orderers/orderer.yunxi.com/msp/tlscacerts/tlsca.yunxi.com-cert.pem -C $CHANNEL_NAME -n $CHAINCODE_NAME -l $BUILD_LANGUAGE -v $CHAINCODE_VERSION -c '{"Args":["init", "a", "100", "b", "200"]}' -P "AND ('SellerMSP.peer','BuyerMSP.peer')"
+
+stepInfo "Instantiate Chaincode On Peer0 Of Buyer"
+docker exec -it \
+-e CORE_PEER_MSPCONFIGPATH=/opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/peerOrganizations/buyer.yunxi.com/users/Admin@buyer.yunxi.com/msp \
+-e CORE_PEER_ADDRESS=peer0.buyer.yunxi.com:7051 \
+-e CORE_PEER_LOCALMSPID=BuyerMSP \
+-e CORE_PEER_TLS_ROOTCERT_FILE=/opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/peerOrganizations/buyer.yunxi.com/peers/peer0.buyer.yunxi.com/tls/ca.crt \
+-e CORE_PEER_TLS_KEY_FILE=/opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/peerOrganizations/buyer.yunxi.com/peers/peer0.buyer.yunxi.com/tls/server.key \
+-e CORE_PEER_TLS_CERT_FILE=/opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/peerOrganizations/buyer.yunxi.com/peers/peer0.buyer.yunxi.com/tls/server.crt \
+cli peer chaincode instantiate -o orderer.yunxi.com:7050 --tls --cafile /opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/ordererOrganizations/yunxi.com/orderers/orderer.yunxi.com/msp/tlscacerts/tlsca.yunxi.com-cert.pem -C $CHANNEL_NAME -n $CHAINCODE_NAME -l $BUILD_LANGUAGE -v $CHAINCODE_VERSION -c '{"Args":["init", "a", "100", "b", "200"]}' -P "AND ('SellerMSP.peer','BuyerMSP.peer')"

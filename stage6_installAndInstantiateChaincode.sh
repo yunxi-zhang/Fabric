@@ -22,7 +22,7 @@ do
         golang) stepInfo "You've picked $BUILD_LANGUAGE"; break;;
         node) stepInfo "You've picked $BUILD_LANGUAGE"; break;;
         java) stepInfo "You've picked $BUILD_LANGUAGE"; break;;
-        *) stepInfo "Invalid option. Try another one.";continue;;
+        *) stepInfo "Invalid option. Try again.";continue;;
     esac
 done
 

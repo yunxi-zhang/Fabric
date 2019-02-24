@@ -23,23 +23,26 @@ const Chaincode = class {
 
     Invoke(stub) {
         console.log('========= Chaincode Invoked =========');
-        console.info(stub.getArgs());
+        const args = stub.getFunctionAndParameters();
+        console.info(args);
+        let method = this[args.fcn];
+        if (!method) {
+            console.log('no method of name:' + method + ' found');
+            return 'no method of name:' + method + ' found';
+        }
 
-        return stub.getState('sellerBalance')
-            .then((value) => {
-                if (value.toString() !== null ) {
-                        console.info(value.toString());
-                        return shim.success();
-                } else {
-                        console.error('Failed to retrieve a value or the retrieved value is not expected: ' + value);
-                        return shim.error();
-                }
-            });
+        try {
+            let payload = await method(stub, args.params);
+            return shim.success(payload);
+        } catch (err) {
+            console.log(err);
+            return shim.error(err);
+        }
     }
 
-    query(stub, args) {
-        console.log('========= Chaincode Queried =========');
-        console.info(args);
+    get(stub, args) {
+        console.log('========= Get Function =========');
+        console.log(args);
 
         return stub.getState(args[0])
             .then((value) => {
@@ -51,6 +54,23 @@ const Chaincode = class {
                         return shim.error();
                 }
             });
+    }
+
+    update(stub, args) {
+        console.log('========= Update Function =========');
+        console.log(args);
+
+        return stub.putState(args[0], Buffer.from(args[1]))
+            .then(() => {
+                console.info('Chaincode update is successful');
+                return shim.success();
+            }, () => {
+                return shim.error();
+            });
+    }
+
+    delete(stub,args) {
+        console.log('========= Delete Function =========');
     }
 };
 

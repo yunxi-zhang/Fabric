@@ -7,7 +7,12 @@ const Chaincode = class {
 
     Init(stub) {
         console.log('========= Chaincode Initialised =========');
-        return stub.putState('dummyKey', Buffer.from('dummyValue'))
+        console.info(stub.getArgs());
+        const args = stub.getArgs();
+        return stub.putState(args[1], Buffer.from(args[2]))
+            .then(() => {
+                stub.putState(args[3], Buffer.from(args[4]))
+            })
             .then(() => {
                 console.info('Chaincode instantiation is successful');
                 return shim.success();
@@ -20,13 +25,29 @@ const Chaincode = class {
         console.log('========= Chaincode Invoked =========');
         console.info(stub.getArgs());
 
-        return stub.getState('dummyKey')
+        return stub.getState('sellerBalance')
             .then((value) => {
-                if (value.toString() === 'dummyValue') {
+                if (value.toString() !== null ) {
                         console.info(value.toString());
                         return shim.success();
                 } else {
-                        console.error('Failed to retrieve dummyKey or the retrieved value is not expected: ' + value);
+                        console.error('Failed to retrieve a value or the retrieved value is not expected: ' + value);
+                        return shim.error();
+                }
+            });
+    }
+
+    query(stub, args) {
+        console.log('========= Chaincode Queried =========');
+        console.info(args);
+
+        return stub.getState(args[0])
+            .then((value) => {
+                if (value.toString() !== null ) {
+                        console.info(value.toString());
+                        return value.toString();
+                } else {
+                        console.error('Failed to retrieve a value or the retrieved value is not expected: ' + value);
                         return shim.error();
                 }
             });

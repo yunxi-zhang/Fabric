@@ -11,6 +11,13 @@ const Chaincode = class {
         const args = stub.getArgs();
         return stub.putState(args[1], Buffer.from(args[2]))
             .then(() => {
+                return stub.getState(args[1])
+                    .then((value) => {
+                        console.log('initialised phase:args[1]');
+                        console.log(value.toString());
+                    })
+            })
+            .then(() => {
                 stub.putState(args[3], Buffer.from(args[4]))
             })
             .then(() => {
@@ -18,26 +25,29 @@ const Chaincode = class {
                 return shim.success();
             }, () => {
                 return shim.error();
-            })
+            });
     }
 
     Invoke(stub) {
         console.log('========= Chaincode Invoked =========');
         const args = stub.getFunctionAndParameters();
         console.info(args);
+        
+       
         let method = this[args.fcn];
         if (!method) {
             console.log('no method of name:' + method + ' found');
-            return 'no method of name:' + method + ' found';
+        } else {
+            console.log('method of name:' + method + ' found');
         }
 
-        try {
-            let payload = await method(stub, args.params);
-            return shim.success(payload);
-        } catch (err) {
-            console.log(err);
-            return shim.error(err);
-        }
+        return method(stub, args.params)
+            .then (() => {
+                console.log("running invoke function");
+                return "running invoke function";
+            }), () => {
+                return shim.error();
+            }
     }
 
     get(stub, args) {

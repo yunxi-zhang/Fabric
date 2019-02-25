@@ -9,11 +9,6 @@ const Chaincode = class {
         console.log('========= Chaincode Initialised =========');
         console.info(stub.getArgs());
         const args = stub.getArgs();
-        console.log('args[0]' + args[0]);
-        console.log('args[1]' + args[1]);
-        console.log('args[2]' + args[2]);
-        console.log('args[3]' + args[3]);
-        console.log('args[4]' + args[4]);
 
         return stub.putState(args[1], Buffer.from(args[2]))
             .then(() => {
@@ -38,22 +33,34 @@ const Chaincode = class {
         console.log('========= Chaincode Invoked =========');
         const args = stub.getFunctionAndParameters();
         console.info(args);
-        
-       
-        let method = this[args.fcn];
-        if (!method) {
-            console.log('no method of name:' + method + ' found');
-        } else {
-            console.log('method of name:' + method + ' found');
-        }
+        console.log('args.params[0]:' + args.params[0]);
 
-        return method(stub, args.params)
-            .then (() => {
-                console.log("running invoke function");
-                return "running invoke function";
-            }), () => {
+        return stub.getState(args.params[0])
+            .then(value => {
+                console.info('args.params[0] value in the invoke function:' + value.toString());
+                return shim.success(value.toString());
+            })
+            .catch(value => {
+                console.error('Failed to retrieve a value or the retrieved value is not expected: ' + value.toString());
                 return shim.error();
-            }
+            });
+       
+        // let method = this[args.fcn];
+        // if (!method) {
+        //     console.log('no method of name:' + method + ' found');
+        // } else {
+        //     console.log('method of name:' + method + ' found');
+        // }
+
+        // return method(stub, args.params)
+        //     .then (() => {
+        //         console.log("running invoke function");
+        //         return "running invoke function";
+        //     })
+        //     .catch(error => {
+        //         console.error(error.toString());
+        //         return shim.error();
+        //     });
     }
 
     get(stub, args) {

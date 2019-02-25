@@ -9,12 +9,18 @@ const Chaincode = class {
         console.log('========= Chaincode Initialised =========');
         console.info(stub.getArgs());
         const args = stub.getArgs();
+        console.log('args[0]' + args[0]);
+        console.log('args[1]' + args[1]);
+        console.log('args[2]' + args[2]);
+        console.log('args[3]' + args[3]);
+        console.log('args[4]' + args[4]);
+
         return stub.putState(args[1], Buffer.from(args[2]))
             .then(() => {
                 return stub.getState(args[1])
                     .then((value) => {
                         console.log('initialised phase:args[1]');
-                        console.log(value.toString());
+                        console.log('args[1] value is:' + value.toString());
                     })
             })
             .then(() => {
@@ -58,7 +64,7 @@ const Chaincode = class {
             .then((value) => {
                 if (value.toString() !== null ) {
                         console.info(value.toString());
-                        return value.toString();
+                        return 'args[0] value in the get function:' + value.toString();
                 } else {
                         console.error('Failed to retrieve a value or the retrieved value is not expected: ' + value);
                         return shim.error();

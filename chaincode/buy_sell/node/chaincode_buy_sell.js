@@ -34,33 +34,23 @@ const Chaincode = class {
         const args = stub.getFunctionAndParameters();
         console.info(args);
         console.log('args.params[0]:' + args.params[0]);
+       
+        let method = this[args.fcn];
+        if (!method) {
+            console.log('no method of name:' + method + ' found');
+        } else {
+            console.log('method found');
+        }
 
-        return stub.getState(args.params[0])
-            .then(value => {
-                console.info('args.params[0] value in the invoke function:' + value.toString());
-                return shim.success(value.toString());
+        return method(stub, args.params)
+            .then (() => {
+                console.log("running invoke function");
+                return shim.success();
             })
-            .catch(value => {
-                console.error('Failed to retrieve a value or the retrieved value is not expected: ' + value.toString());
+            .catch(error => {
+                console.error(error.toString());
                 return shim.error();
             });
-       
-        // let method = this[args.fcn];
-        // if (!method) {
-        //     console.log('no method of name:' + method + ' found');
-        // } else {
-        //     console.log('method of name:' + method + ' found');
-        // }
-
-        // return method(stub, args.params)
-        //     .then (() => {
-        //         console.log("running invoke function");
-        //         return "running invoke function";
-        //     })
-        //     .catch(error => {
-        //         console.error(error.toString());
-        //         return shim.error();
-        //     });
     }
 
     get(stub, args) {

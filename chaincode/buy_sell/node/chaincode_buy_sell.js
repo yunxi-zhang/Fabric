@@ -60,7 +60,7 @@ const Chaincode = class {
         return stub.getState(args[0])
             .then((value) => {
                 if (value.toString() !== null ) {
-                        console.info(value.toString());
+                        console.info("value is:" + value.toString());
                         return 'args[0] value in the get function:' + value.toString();
                 } else {
                         console.error('Failed to retrieve a value or the retrieved value is not expected: ' + value);
@@ -72,6 +72,8 @@ const Chaincode = class {
     update(stub, args) {
         console.log('========= Update Function =========');
         console.log(args);
+        console.log("args[0]:" + args[0]);
+        console.log("args[1]:" + args[1]);
 
         return stub.putState(args[0], Buffer.from(args[1]))
             .then(() => {

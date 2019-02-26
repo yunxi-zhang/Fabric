@@ -60,11 +60,11 @@ const Chaincode = class {
         return stub.getState(args[0])
             .then((value) => {
                 if (value.toString() !== null ) {
-                        console.info("value is:" + value.toString());
-                        return 'args[0] value in the get function:' + value.toString();
+                    console.info("value is:" + value.toString());
+                    return 'args[0] value in the get function:' + value.toString();
                 } else {
-                        console.error('Failed to retrieve a value or the retrieved value is not expected: ' + value);
-                        return shim.error();
+                    console.error('Failed to retrieve a value or the retrieved value is not expected: ' + value);
+                    return shim.error();
                 }
             });
     }

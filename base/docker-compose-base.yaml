@@ -59,7 +59,7 @@ services:
       - CORE_PEER_ID=peer0.buyer.yunxi.com
       - CORE_PEER_ADDRESS=peer0.buyer.yunxi.com:7051
       - CORE_PEER_GOSSIP_EXTERNALENDPOINT=peer0.buyer.yunxi.com:7051
-      - CORE_PEER_GOSSIP_BOOTSTRAP=peer1.buyer.yunxi.com:7051
+      - CORE_PEER_GOSSIP_BOOTSTRAP=peer0.buyer.yunxi.com:7051
       - CORE_PEER_LOCALMSPID=BuyerMSP
     volumes:
         - /var/run/:/host/var/run/

@@ -46,9 +46,10 @@ const Chaincode = class {
 
     // async Invoke(stub) {
     //     console.log('========= Chaincode Invoked =========');
-    //     let ret = stub.getFunctionAndParameters();
-    //     let fcn = this[ret.fcn];
-    //     fcn(stub, ret.params);
+    //     return shim.success();
+        // let ret = stub.getFunctionAndParameters();
+        // let fcn = this[ret.fcn];
+        // fcn(stub, ret.params);
     // }
 
     Invoke(stub) {

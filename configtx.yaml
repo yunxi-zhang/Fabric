@@ -60,7 +60,7 @@ Organizations:
                 Rule: "OR('SellerMSP.admin', 'SellerMSP.peer', 'SellerMSP.client')"
             Writers:
                 Type: Signature
-                Rule: "OR('SellerMSP.admin', 'SellerMSP.client')"
+                Rule: "OR('SellerMSP.admin', 'SellerMSP.peer', 'SellerMSP.client')"
             Admins:
                 Type: Signature
                 Rule: "OR('SellerMSP.admin', 'SellerMSP.peer')"
@@ -92,7 +92,7 @@ Organizations:
                 Rule: "OR('BuyerMSP.admin', 'BuyerMSP.peer', 'BuyerMSP.client')"
             Writers:
                 Type: Signature
-                Rule: "OR('BuyerMSP.admin', 'BuyerMSP.client')"
+                Rule: "OR('BuyerMSP.admin', 'BuyerMSP.peer', 'BuyerMSP.client')"
             Admins:
                 Type: Signature
                 Rule: "OR('BuyerMSP.admin', 'BuyerMSP.peer')"

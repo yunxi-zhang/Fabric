@@ -23,13 +23,13 @@ stepInfo "Step 5: Clean All Docker Info"
 docker system prune --all --force --volumes 
 # Step 6: remove all the files that will be generated in this project if they exist
 stepInfo "Step 6: Remove All The Files That Will Be Generated In This Project If They Exist"
-rm -rf bin channel-artifacts config crypo-config scripts
+rm -rf bin channel-artifacts config crypto-config scripts
 # Step 7: show these files do not exist
 stepInfo "Step 7: Show That These Files Do Not Exist"
 ls -al bin
 ls -al channel-artifacts 
 ls -al config
-ls -al crypo-config
+ls -al crypto-config
 ls -al scripts
 
 # Step 8: run all other shell files for this project

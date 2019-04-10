@@ -5,75 +5,76 @@ const util = require('util');
 
 const Chaincode = class {
 
-    async Init(stub) {
-        console.log('========= Chaincode Initialised =========');
-        let ret = stub.getFunctionAndParameters();
-        let args = ret.params;
-        console.log("args[0]" + args[0]);
-        console.log("args[1]" + args[1]);
-        console.log("args[2]" + args[2]);
-        console.log("args[3]" + args[3]);
-
-        await stub.putState(args[0], Buffer.from(args[1]));
-        await stub.putState(args[2], Buffer.from(args[3]));
-
-        return shim.success();
-    }
-
-    // Init(stub) {
+    // async Init(stub) {
     //     console.log('========= Chaincode Initialised =========');
-    //     console.info(stub.getArgs());
-    //     const args = stub.getArgs();
+    //     let ret = stub.getFunctionAndParameters();
+    //     let args = ret.params;
+    //     console.log("args[0]" + args[0]);
+    //     console.log("args[1]" + args[1]);
+    //     console.log("args[2]" + args[2]);
+    //     console.log("args[3]" + args[3]);
 
-    //     return stub.putState(args[1], Buffer.from(args[2]))
-    //         .then(() => {
-    //             return stub.getState(args[1])
-    //                 .then((value) => {
-    //                     console.log('initialised phase:args[1]');
-    //                     console.log('args[1] value is:' + value.toString());
-    //                 })
-    //         })
-    //         .then(() => {
-    //             stub.putState(args[3], Buffer.from(args[4]))
-    //         })
-    //         .then(() => {
-    //             console.info('Chaincode instantiation is successful');
-    //             return shim.success();
-    //         }, () => {
-    //             return shim.error();
-    //         });
+    //     await stub.putState(args[0], Buffer.from(args[1]));
+    //     await stub.putState(args[2], Buffer.from(args[3]));
+
+    //     return shim.success();
     // }
 
-    async Invoke(stub) {
-        console.log('========= Chaincode Invoked =========');
-        let ret = stub.getFunctionAndParameters();
-        let fcn = this[ret.fcn];
-        fcn(stub, ret.params);
+    Init(stub) {
+        console.log('========= Chaincode Initialised =========');
+        console.info(stub.getArgs());
+        const args = stub.getArgs();
+
+        return stub.putState(args[1], Buffer.from(args[2]))
+            .then(() => {
+                return stub.getState(args[1])
+                    .then((value) => {
+                        console.log('initialised phase:args[1]');
+                        console.log('args[1] value is:' + value.toString());
+                    })
+            })
+            .then(() => {
+                stub.putState(args[3], Buffer.from(args[4]))
+            })
+            .then(() => {
+                console.info('Chaincode instantiation is successful');
+                return shim.success();
+            }, () => {
+                return shim.error();
+            });
     }
 
-    // Invoke(stub) {
+    // async Invoke(stub) {
     //     console.log('========= Chaincode Invoked =========');
-    //     const args = stub.getFunctionAndParameters();
-    //     console.info(args);
-    //     console.log('args.params[0]:' + args.params[0]);
-       
-    //     let method = this[args.fcn];
-    //     if (!method) {
-    //         console.log('no method of name:' + method + ' found');
-    //     } else {
-    //         console.log('method found');
-    //     }
-
-    //     return method(stub, args.params)
-    //         .then (() => {
-    //             console.log("running invoke function");
-    //             return shim.success();
-    //         })
-    //         .catch(error => {
-    //             console.error(error.toString());
-    //             return shim.error();
-    //         });
+    //     return shim.success();
+        // let ret = stub.getFunctionAndParameters();
+        // let fcn = this[ret.fcn];
+        // fcn(stub, ret.params);
     // }
+
+    Invoke(stub) {
+        console.log('========= Chaincode Invoked =========');
+        const args = stub.getFunctionAndParameters();
+        console.info(args);
+        console.log('args.params[0]:' + args.params[0]);
+       
+        let method = this[args.fcn];
+        if (!method) {
+            console.log('no method of name:' + method + ' found');
+        } else {
+            console.log('method found');
+        }
+
+        return method(stub, args.params)
+            .then (() => {
+                console.log("running invoke function");
+                return shim.success();
+            })
+            .catch(error => {
+                console.error(error.toString());
+                return shim.error();
+            });
+    }
 
     get(stub, args) {
         console.log('========= Get Function =========');
@@ -91,30 +92,30 @@ const Chaincode = class {
             });
     }
 
-    async update(stub, args) {
-        console.log('========= Update Function =========');
-        console.log(args);
-        console.log("args[0]:" + args[0]);
-        console.log("args[1]:" + args[1]);
-
-        await stub.putState(args[0], Buffer.from(args[1]));
-        return shim.success();
-    }
-
-    // update(stub, args) {
+    // async update(stub, args) {
     //     console.log('========= Update Function =========');
     //     console.log(args);
     //     console.log("args[0]:" + args[0]);
     //     console.log("args[1]:" + args[1]);
 
-    //     return stub.putState(args[0], Buffer.from(args[1]))
-    //         .then(() => {
-    //             console.info('Chaincode update is successful');
-    //             return shim.success();
-    //         }, () => {
-    //             return shim.error();
-    //         });
+    //     await stub.putState(args[0], Buffer.from(args[1]));
+    //     return shim.success();
     // }
+
+    update(stub, args) {
+        console.log('========= Update Function =========');
+        console.log(args);
+        console.log("args[0]:" + args[0]);
+        console.log("args[1]:" + args[1]);
+
+        return stub.putState(args[0], Buffer.from(args[1]))
+            .then(() => {
+                console.info('Chaincode update is successful');
+                return shim.success();
+            }, () => {
+                return shim.error();
+            });
+    }
 
     delete(stub,args) {
         console.log('========= Delete Function =========');

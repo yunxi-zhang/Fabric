@@ -12,17 +12,20 @@ CHAINCODE_NAME=cc
 stepInfo "The chaincode name is: $CHAINCODE_NAME"
 
 # type in a language for build
-stepInfo "Please select a number for a build language:"
-export PS3="Please make a selection =>"
-select BUILD_LANGUAGE in golang node java
-do
-    case $BUILD_LANGUAGE in
-        golang) stepInfo "You've picked $BUILD_LANGUAGE"; break;;
-        node) stepInfo "You've picked $BUILD_LANGUAGE"; break;;
-        java) stepInfo "You've picked $BUILD_LANGUAGE"; break;;
-        *) stepInfo "Invalid option. Try again.";continue;;
-    esac
-done
+# stepInfo "Please select a number for a build language:"
+# export PS3="Please make a selection =>"
+# select BUILD_LANGUAGE in golang node java
+# do
+#     case $BUILD_LANGUAGE in
+#         golang) stepInfo "You've picked $BUILD_LANGUAGE"; break;;
+#         node) stepInfo "You've picked $BUILD_LANGUAGE"; break;;
+#         java) stepInfo "You've picked $BUILD_LANGUAGE"; break;;
+#         *) stepInfo "Invalid option. Try again.";continue;;
+#     esac
+# done
+
+# node is the only currently used language in this repo
+BUILD_LANGUAGE=node
 
 # Golang uses a relative path, and the ABSOLUTE_PATH_PREFIX will be auto added to the CHAINCODE_PATH
 # ABSOLUTE_PATH_PREFIX is only used when node or java has been selected as the build language

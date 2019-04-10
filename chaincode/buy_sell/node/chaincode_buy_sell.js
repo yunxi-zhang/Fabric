@@ -5,119 +5,67 @@ const util = require('util');
 
 const Chaincode = class {
 
-    // async Init(stub) {
-    //     console.log('========= Chaincode Initialised =========');
-    //     let ret = stub.getFunctionAndParameters();
-    //     let args = ret.params;
-    //     console.log("args[0]" + args[0]);
-    //     console.log("args[1]" + args[1]);
-    //     console.log("args[2]" + args[2]);
-    //     console.log("args[3]" + args[3]);
-
-    //     await stub.putState(args[0], Buffer.from(args[1]));
-    //     await stub.putState(args[2], Buffer.from(args[3]));
-
-    //     return shim.success();
-    // }
-
-    Init(stub) {
+    async Init(stub) {
         console.log('========= Chaincode Initialised =========');
-        console.info(stub.getArgs());
-        const args = stub.getArgs();
+        let ret = stub.getFunctionAndParameters();
+        let args = ret.params;
+        console.log("args[0]:" + args[0]);
+        console.log("args[1]:" + args[1]);
+        console.log("args[2]:" + args[2]);
+        console.log("args[3]:" + args[3]);
 
-        return stub.putState(args[1], Buffer.from(args[2]))
-            .then(() => {
-                return stub.getState(args[1])
-                    .then((value) => {
-                        console.log('initialised phase:args[1]');
-                        console.log('args[1] value is:' + value.toString());
-                    })
-            })
-            .then(() => {
-                stub.putState(args[3], Buffer.from(args[4]))
-            })
-            .then(() => {
-                console.info('Chaincode instantiation is successful');
-                return shim.success();
-            }, () => {
-                return shim.error();
-            });
+        await stub.putState(args[0], Buffer.from(args[1]));
+        await stub.putState(args[2], Buffer.from(args[3]));
+        return shim.success();
     }
 
-    // async Invoke(stub) {
-    //     console.log('========= Chaincode Invoked =========');
-    //     return shim.success();
-        // let ret = stub.getFunctionAndParameters();
-        // let fcn = this[ret.fcn];
-        // fcn(stub, ret.params);
-    // }
-
-    Invoke(stub) {
+    async Invoke(stub) {
         console.log('========= Chaincode Invoked =========');
         const args = stub.getFunctionAndParameters();
         console.info(args);
         console.log('args.params[0]:' + args.params[0]);
-       
         let method = this[args.fcn];
         if (!method) {
             console.log('no method of name:' + method + ' found');
+            return shim.success()
         } else {
-            console.log('method found');
+            try {
+                console.log("Running method...");
+                // Run method
+                let payload = await method(stub, args.params);
+                console.log("payload:", payload);
+                console.log("type of payload:", typeof payload);
+                return shim.success(payload); 
+            } catch (err) {
+                console.log("ERROR", err);
+                return shim.error("Error - unable to get response from method");
+            }
         }
-
-        return method(stub, args.params)
-            .then (() => {
-                console.log("running invoke function");
-                return shim.success();
-            })
-            .catch(error => {
-                console.error(error.toString());
-                return shim.error();
-            });
     }
 
-    get(stub, args) {
+    async get(stub, args) {
         console.log('========= Get Function =========');
         console.log(args);
 
-        return stub.getState(args[0])
-            .then((value) => {
-                if (value.toString() !== null ) {
-                    console.info("value is:" + value.toString());
-                    return 'args[0] value in the get function:' + value.toString();
-                } else {
-                    console.error('Failed to retrieve a value or the retrieved value is not expected: ' + value);
-                    return shim.error();
-                }
-            });
+        let value = await stub.getState(args[0]);
+        if (value.toString() && value.toString() !== null) {
+            console.log('value:', value.toString());
+            return value;
+        } else {
+            return shim.error("Error - productBatch doesn't exist or is null");
+        }
     }
 
-    // async update(stub, args) {
-    //     console.log('========= Update Function =========');
-    //     console.log(args);
-    //     console.log("args[0]:" + args[0]);
-    //     console.log("args[1]:" + args[1]);
-
-    //     await stub.putState(args[0], Buffer.from(args[1]));
-    //     return shim.success();
-    // }
-
-    update(stub, args) {
+    async update(stub, args) {
         console.log('========= Update Function =========');
         console.log(args);
         console.log("args[0]:" + args[0]);
         console.log("args[1]:" + args[1]);
 
-        return stub.putState(args[0], Buffer.from(args[1]))
-            .then(() => {
-                console.info('Chaincode update is successful');
-                return shim.success();
-            }, () => {
-                return shim.error();
-            });
+        await stub.putState(args[0], Buffer.from(args[1]));
     }
 
-    delete(stub,args) {
+    async delete(stub,args) {
         console.log('========= Delete Function =========');
     }
 };

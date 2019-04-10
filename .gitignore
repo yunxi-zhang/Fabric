@@ -8,6 +8,7 @@ crypto-config/
 channel-artifacts/
 scripts/
 !myapp/config/
+myapp/identity/user/**/wallet/
 
 ### macOS ###
 # General

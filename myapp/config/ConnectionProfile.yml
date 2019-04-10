@@ -44,38 +44,38 @@ channels:
       #
       # [Optional]. Peers and their roles
       #
-      peers:
-      #
-      # [Required]. Peer logical name
-      #
-        peer0.seller.yunxi.com:
-          #
-          # [Optional]. Is this an endorsing peer? (It must have chaincode
-          # installed.) Default: true
-          #
-          endorsingPeer: true
-          #
-          # [Optional]. Is this peer used for query? (It must have chaincode
-          # installed.) Default: true
-          #
-          chaincodeQuery: true
-          #
-          # [Optional]. Is this peer used for non-chaincode queries? All peers
-          # support these types of queries, which include queryBlock(),
-          # queryTransaction(), etc. Default: true
-          #
-          ledgerQuery: true
-          #
-          # [Optional]. Is this peer used as an event hub? All peers can produce
-          # events. Default: true
-          #
-          eventSource: true
+    peers:
+    #
+    # [Required]. Peer logical name
+    #
+      peer0.seller.yunxi.com:
         #
-        peer0.buyer.yunxi.com:
-          endorsingPeer: true
-          chaincodeQuyer: true
-          ledgerQuery: true
-          eventSource: true
+        # [Optional]. Is this an endorsing peer? (It must have chaincode
+        # installed.) Default: true
+        #
+        endorsingPeer: true
+        #
+        # [Optional]. Is this peer used for query? (It must have chaincode
+        # installed.) Default: true
+        #
+        chaincodeQuery: true
+        #
+        # [Optional]. Is this peer used for non-chaincode queries? All peers
+        # support these types of queries, which include queryBlock(),
+        # queryTransaction(), etc. Default: true
+        #
+        ledgerQuery: true
+        #
+        # [Optional]. Is this peer used as an event hub? All peers can produce
+        # events. Default: true
+        #
+        eventSource: true
+      #
+      peer0.buyer.yunxi.com:
+        endorsingPeer: true
+        chaincodeQuyer: true
+        ledgerQuery: true
+        eventSource: true
 #
 # [Required]. List of organizations for all channels. At least one organization
 # is required.
@@ -99,10 +99,8 @@ organizations:
     #
     certificateAuthorities:
       - ca.seller.yunxi.com
-    adminPrivateKey:
-      path: crypto-config/peerOrganizations/seller.yunxi.com/users/Admin@seller.yunxi.com/msp/keystore/b33ec8f0d44c35b7572ec1ff80335558d9d3bdee3eb3490a5f0127b1b89ea7e9_sk
     signedCert: 
-      path: crypto-config/peerOrganizations/seller.yunxi.com/users/Admin@seller.yunxi.com/msp/signcerts/Admin@seller.yunxi.com-cert.pem
+      path: ../crypto-config/peerOrganizations/seller.yunxi.com/users/Admin@seller.yunxi.com/msp/signcerts/Admin@seller.yunxi.com-cert.pem
   #
   # [Optional]. Organizational information for Buyer
   #
@@ -118,10 +116,8 @@ organizations:
       - peer0.buyer.yunxi.com
     certificateAuthorities:
       - ca.buyer.yunxi.com
-    adminPrivateKey:
-      path: crypto-config/peerOrganizations/buyer.yunxi.com/users/Admin@buyer.yunxi.com/msp/keystore/2c68f516e66001ed6053ee0f4f67cd1b81cf76dcbbfa80765d6282ec665e862c_sk
     signedCert: 
-      path: crypto-config/peerOrganizations/buyer.yunxi.com/users/Admin@buyer.yunxi.com/msp/signcerts/Admin@buyer.yunxi.com-cert.pem
+      path: ../crypto-config/peerOrganizations/buyer.yunxi.com/users/Admin@buyer.yunxi.com/msp/signcerts/Admin@buyer.yunxi.com-cert.pem
 #
 # [Optional]. Orderer physical information, by orderer name
 # 
@@ -133,15 +129,15 @@ orderers:
     #
     # [Required]. This orderer's IP address
     #
-    url: grpc://localhost:7050
+    url: grpcs://localhost:7050
     #
     # [Optional]. gRPC connection properties used for communication
     #
     grpcOptions:
       ssl-target-name-override: orderer.yunxi.com
       grpc-max-send-message-length: 15
-      tlsCACerts: 
-        path: crypto-config/peerOrganizations/ordererOrganizations/msp/tlscacerts/tlsca.yunxi.com-cert.pem
+    tlsCACerts: 
+      path: crypto-config/peerOrganizations/ordererOrganizations/msp/tlscacerts/tlsca.yunxi.com-cert.pem
 #
 # [Required]. Peer physical information, by peer name. At least one peer is
 # required.
@@ -154,7 +150,8 @@ peers:
     #
     # [Required]. Peer's IP address
     #
-    url: grpc://localhost:7051
+    url: grpcs://localhost:7051
+    eventUrl: grpcs://localhost:7053
     #
     # [Optional]. gRPC connection properties used for communication
     #
@@ -162,73 +159,74 @@ peers:
       ssl-target-name-override: peer0.seller.yunxi.com
       request-timeout: 120001
     tlsCACerts: 
-      path: crypto-config/peerOrganizations/seller.yunxi.com/peers/peer0.seller.yunxi.com/msp/tlscacerts/tlsca.seller.yunxi.com-cert.pem
+      path: ../crypto-config/peerOrganizations/seller.yunxi.com/peers/peer0.seller.yunxi.com/msp/tlscacerts/tlsca.seller.yunxi.com-cert.pem
   #
   # [Required]. Buyer peer physical properties
   #
   peer0.buyer.yunxi.com
-    url: grpc://localhost:7051
+    url: grpcs://localhost:9051
+    eventUrl: grpcs://localhost:9053
     grpcOptions:
       ssl-target-name-override: peer0.buyer.yunxi.com
       request-timeout: 120001
     tlsCACerts: 
-      path: crypto-config/peerOrganizations/buyer.yunxi.com/peers/peer0.buyer.yunxi.com/msp/tlscacerts/tlsca.buyer.yunxi.com-cert.pem
+      path: ../crypto-config/peerOrganizations/buyer.yunxi.com/peers/peer0.buyer.yunxi.com/msp/tlscacerts/tlsca.buyer.yunxi.com-cert.pem
 #
 # [Optional]. Fabric-CA Certificate Authority physical information, by name.
 # This information can be used to (e.g.) enroll new users. Communication is via
 # REST, hence options relate to HTTP rather than gRPC.
 #
-certificateAuthorities:
-  #
-  # [Required]. Seller's CA
-  #
-  ca.seller.yunxi.com:
-  #
-  # [Required]. CA IP address
-  #
-  url: http://localhost:7053
-  #
-  # [Optioanl]. HTTP connection properties used for communication
-  #
-  httpOptions:
-    verify: false
-  tlsCACerts:
-    path: crypto-config/peerOrganizations/seller.yunxi.com/ca.seller.yunxi.com-cert.pem
-  #
-  # [Optional]. Fabric-CA supports Certificate Signing Requests (CSRs). A
-  # registrar is needed to enroll new users.
-  #
-  registrar:
-    - enrollId: admin
-    enrollSecret: adminpw
-  #
-  # [Optional]. The name of the CA.
-  #
-  caName: ca-seller
-certificateAuthorities:
-  #
-  # [Required]. Buyer's CA
-  #
-  ca.buyer.yunxi.com:
-  #
-  # [Required]. CA IP address
-  #
-  url: http://localhost:7053
-  #
-  # [Optioanl]. HTTP connection properties used for communication
-  #
-  httpOptions:
-    verify: false
-  tlsCACerts:
-    path: crypto-config/peerOrganizations/buyer.yunxi.com/ca.buyer.yunxi.com-cert.pem
-  #
-  # [Optional]. Fabric-CA supports Certificate Signing Requests (CSRs). A
-  # registrar is needed to enroll new users.
-  #
-  registrar:
-    - enrollId: admin
-    enrollSecret: adminpw
-  #
-  # [Optional]. The name of the CA.
-  #
-  caName: ca-seller
+# certificateAuthorities:
+#   #
+#   # [Required]. Seller's CA
+#   #
+#   ca.seller.yunxi.com:
+#   #
+#   # [Required]. CA IP address
+#   #
+#   url: http://localhost:7053
+#   #
+#   # [Optioanl]. HTTP connection properties used for communication
+#   #
+#   httpOptions:
+#     verify: false
+#   tlsCACerts:
+#     path: crypto-config/peerOrganizations/seller.yunxi.com/ca.seller.yunxi.com-cert.pem
+#   #
+#   # [Optional]. Fabric-CA supports Certificate Signing Requests (CSRs). A
+#   # registrar is needed to enroll new users.
+#   #
+#   registrar:
+#     - enrollId: admin
+#     enrollSecret: adminpw
+#   #
+#   # [Optional]. The name of the CA.
+#   #
+#   caName: ca-seller
+# certificateAuthorities:
+#   #
+#   # [Required]. Buyer's CA
+#   #
+#   ca.buyer.yunxi.com:
+#   #
+#   # [Required]. CA IP address
+#   #
+#   url: http://localhost:7053
+#   #
+#   # [Optioanl]. HTTP connection properties used for communication
+#   #
+#   httpOptions:
+#     verify: false
+#   tlsCACerts:
+#     path: crypto-config/peerOrganizations/buyer.yunxi.com/ca.buyer.yunxi.com-cert.pem
+#   #
+#   # [Optional]. Fabric-CA supports Certificate Signing Requests (CSRs). A
+#   # registrar is needed to enroll new users.
+#   #
+#   registrar:
+#     - enrollId: admin
+#     enrollSecret: adminpw
+#   #
+#   # [Optional]. The name of the CA.
+#   #
+#   caName: ca-seller

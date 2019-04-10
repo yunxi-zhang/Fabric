@@ -19,7 +19,7 @@ const buyerPrivateKey = fs.readdirSync(buyerDirectoryPath)[0];
 
 async function sellerIdentityInit() {
     // A wallet stores a collection of identities for users in seller to use
-    const wallet = new FileSystemWallet('./identity/user/sc/wallet');
+    const wallet = new FileSystemWallet('./identity/user/seller/wallet');
     const credPath = path.resolve(__dirname, '../crypto-config/peerOrganizations/seller.yunxi.com/users/Admin@seller.yunxi.com');
     // Identity to credentials to be stored in the wallet
     const cert = fs.readFileSync(path.join(credPath, '/msp/signcerts/Admin@seller.yunxi.com-cert.pem')).toString();

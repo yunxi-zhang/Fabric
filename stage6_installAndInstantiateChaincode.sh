@@ -74,6 +74,9 @@ stepInfo "Instantiate Chaincode On Peer0 Of Seller"
 INIT_CHAINCODE_PARAMETERS='{"Args":["init", "sellerBalance", "100", "buyerBalance", "100"]}'
 docker exec -it cli peer chaincode instantiate -o orderer.yunxi.com:7050 --tls --cafile /opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/ordererOrganizations/yunxi.com/orderers/orderer.yunxi.com/msp/tlscacerts/tlsca.yunxi.com-cert.pem -C $CHANNEL_NAME -n $CHAINCODE_NAME -l $BUILD_LANGUAGE -v $CHAINCODE_VERSION -c "$INIT_CHAINCODE_PARAMETERS" -P 'OR ("SellerMSP.peer","BuyerMSP.peer")'
 
+stepInfo "Sleeping for 5 seconds, waiting for chaincode instantation to complete ..."
+sleep 5
+
 stepInfo "Test Query Function for Getting Seller's Balance"
 TEST_CHAINCODE_PARAMETERS='{"Args":["get","sellerBalance"]}'
 docker exec -it cli \

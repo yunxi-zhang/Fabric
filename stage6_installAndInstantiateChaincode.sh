@@ -72,17 +72,17 @@ fi
 
 stepInfo "Instantiate Chaincode On Peer0 Of Seller"
 INIT_CHAINCODE_PARAMETERS='{"Args":["init", "sellerBalance", "100", "buyerBalance", "100"]}'
-docker exec -it cli peer chaincode instantiate -o orderer.yunxi.com:7050 --tls --cafile /opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/ordererOrganizations/yunxi.com/orderers/orderer.yunxi.com/msp/tlscacerts/tlsca.yunxi.com-cert.pem -C $CHANNEL_NAME -n $CHAINCODE_NAME -l $BUILD_LANGUAGE -v $CHAINCODE_VERSION -c '{"Args":["init", "sellerBalance", "110", "buyerBalance", "200"]}' -P 'OR ("SellerMSP.peer","BuyerMSP.peer")'
+docker exec -it cli peer chaincode instantiate -o orderer.yunxi.com:7050 --tls --cafile /opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/ordererOrganizations/yunxi.com/orderers/orderer.yunxi.com/msp/tlscacerts/tlsca.yunxi.com-cert.pem -C $CHANNEL_NAME -n $CHAINCODE_NAME -l $BUILD_LANGUAGE -v $CHAINCODE_VERSION -c "$INIT_CHAINCODE_PARAMETERS" -P 'OR ("SellerMSP.peer","BuyerMSP.peer")'
 
 stepInfo "Test Query Function for Getting Seller's Balance"
 TEST_CHAINCODE_PARAMETERS='{"Args":["get","sellerBalance"]}'
 docker exec -it cli \
-peer chaincode query -n $CHAINCODE_NAME -c $TEST_CHAINCODE_PARAMETERS -C $CHANNEL_NAME
+peer chaincode query -n $CHAINCODE_NAME -c "$TEST_CHAINCODE_PARAMETERS" -C $CHANNEL_NAME
 
 stepInfo "Test Invoke Function for Updating Seller's Balance"
 INOVKE_CHAINCODE_PARAMETERS='{"Args":["update","sellerBalance","150"]}'
 docker exec -it cli \
-peer chaincode invoke -o orderer.yunxi.com:7050 --tls true --cafile /opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/ordererOrganizations/yunxi.com/orderers/orderer.yunxi.com/msp/tlscacerts/tlsca.yunxi.com-cert.pem -C $CHANNEL_NAME -n $CHAINCODE_NAME --peerAddresses peer0.seller.yunxi.com:7051 --tlsRootCertFiles /opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/peerOrganizations/seller.yunxi.com/peers/peer0.seller.yunxi.com/tls/ca.crt -c $INOVKE_CHAINCODE_PARAMETERS
+peer chaincode invoke -o orderer.yunxi.com:7050 --tls true --cafile /opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/ordererOrganizations/yunxi.com/orderers/orderer.yunxi.com/msp/tlscacerts/tlsca.yunxi.com-cert.pem -C $CHANNEL_NAME -n $CHAINCODE_NAME --peerAddresses peer0.seller.yunxi.com:7051 --tlsRootCertFiles /opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/peerOrganizations/seller.yunxi.com/peers/peer0.seller.yunxi.com/tls/ca.crt -c "$INOVKE_CHAINCODE_PARAMETERS"
 
 stepInfo "Sleeping for 5s to wait for data update to complete"
 sleep 5
@@ -90,4 +90,4 @@ sleep 5
 stepInfo "Test Query Function for Getting Seller's Balance again"
 TEST_CHAINCODE_PARAMETERS='{"Args":["get","sellerBalance"]}'
 docker exec -it cli \
-peer chaincode query -n $CHAINCODE_NAME -c $TEST_CHAINCODE_PARAMETERS -C $CHANNEL_NAME
+peer chaincode query -n $CHAINCODE_NAME -c "$TEST_CHAINCODE_PARAMETERS" -C $CHANNEL_NAME

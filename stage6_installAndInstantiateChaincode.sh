@@ -4,14 +4,12 @@
 source ./common.sh
 
 # type in a new version for chaincode
-stepInfo "Please type in a new version for installing the chaincode"
-read CHAINCODE_VERSION
-stepInfo "The typedin chaincode version is: $CHAINCODE_VERSION"
+CHAINCODE_VERSION=0.1
+stepInfo "The chaincode version is: $CHAINCODE_VERSION"
 
 # type in a chaincode name
-stepInfo "Please type in a chaincode name"
-read CHAINCODE_NAME
-stepInfo "The received chaincode name is: $CHAINCODE_NAME"
+CHAINCODE_NAME=cc
+stepInfo "The chaincode name is: $CHAINCODE_NAME"
 
 # type in a language for build
 stepInfo "Please select a number for a build language:"

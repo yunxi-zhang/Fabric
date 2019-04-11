@@ -137,7 +137,7 @@ orderers:
       ssl-target-name-override: orderer.yunxi.com
       grpc-max-send-message-length: 15
     tlsCACerts: 
-      path: crypto-config/peerOrganizations/ordererOrganizations/msp/tlscacerts/tlsca.yunxi.com-cert.pem
+      path: ../crypto-config/ordererOrganizations/yunxi.com/msp/tlscacerts/tlsca.yunxi.com-cert.pem
 #
 # [Required]. Peer physical information, by peer name. At least one peer is
 # required.

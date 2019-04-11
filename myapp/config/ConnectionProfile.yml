@@ -125,7 +125,7 @@ orderers:
   #
   # [Required]. Name of Seller orderer
   #
-  orderer.yunxi.com
+  orderer.yunxi.com:
     #
     # [Required]. This orderer's IP address
     #
@@ -146,7 +146,7 @@ peers:
   #
   # [Required]. Seller peer physical properties
   #
-  peer0.seller.yunxi.com
+  peer0.seller.yunxi.com:
     #
     # [Required]. Peer's IP address
     #
@@ -163,7 +163,7 @@ peers:
   #
   # [Required]. Buyer peer physical properties
   #
-  peer0.buyer.yunxi.com
+  peer0.buyer.yunxi.com:
     url: grpcs://localhost:9051
     eventUrl: grpcs://localhost:9053
     grpcOptions:

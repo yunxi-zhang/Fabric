@@ -31,7 +31,7 @@ channels:
   #
   # [Optional]. tradenet is the only channel in this connection profile
   #
-  tradenet:
+  c1:
     #
     # [Optional]. Channel orderers for tradeNet. Details of how to connect to
     # them is specified later, under the physical "orderers:" section

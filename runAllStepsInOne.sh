@@ -24,7 +24,7 @@ docker system prune --all --force --volumes
 # Step 6: remove all the files that will be generated in this project if they exist
 stepInfo "Step 6: Remove All The Files That Will Be Generated In This Project If They Exist"
 rm -rf bin channel-artifacts config crypto-config scripts
-rm -rf myapp/identity/user/*/wallet/Admin@*
+rm -rf webapp/identity/user/*/wallet/Admin@*
 # Step 7: show these files do not exist
 stepInfo "Step 7: Show That These Files Do Not Exist"
 ls -al bin

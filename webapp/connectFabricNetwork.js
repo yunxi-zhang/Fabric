@@ -71,7 +71,38 @@ async function getBuyerBalance(){
     }    
 }
 
+async function getBuyerBalanceInExchange(){
+    try {
+        const connectionProfile = yaml.safeLoad(fs.readFileSync('./config/ConnectionProfile.yml', 'utf8'));
+        let connectionOptions = {
+            identity: buyerUserName,
+            wallet: buyerWallet,
+            discovery: { enabled: false, asLocalhost: true}
+        };
+        // Connect to gateway using application specified parameters
+        console.log('Connecting to Fabric gateway...');
+        await gateway.connect(connectionProfile, connectionOptions);
+
+        const network = await gateway.getNetwork('c1');
+        console.log('Use channel:', network.channel._name);
+    
+        const contract = await network.getContract('exchange');
+        console.log('Use chaincode:', contract.chaincodeId);
+    
+        const queryResponse = await contract.evaluateTransaction("getInExchange", "buyerBalance")
+        return queryResponse.toString();
+    } catch (error) {
+        console.log(`Error processing transaction. ${error}`);
+        console.log(error.stack);
+    } finally {
+        // Disconnect from the gateway
+        console.log('Disconnect from Fabric gateway.')
+        gateway.disconnect();
+    }    
+}
+
 module.exports = {
     getSellerBalance,
-    getBuyerBalance
+    getBuyerBalance,
+    getBuyerBalanceInExchange
 }; 

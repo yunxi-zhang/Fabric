@@ -4,7 +4,8 @@
   "description": "backend app to call Fabric ledger",
   "main": "index.js",
   "scripts": {
-    "start": "node addToWallet.js && node server.js",
+    "prestart": "node addToWallet.js",
+    "start": "node server.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "Yunxi Zhang",

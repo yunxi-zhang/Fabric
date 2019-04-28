@@ -15,4 +15,9 @@ app.get("/getSellerBalance", async (req, res, next) => {
 app.get("/getBuyerBalance", async (req, res, next) => {
     let balance = await connectFabricNetwork.getBuyerBalance();
     res.json(JSON.parse(balance));
-})
+});
+
+app.get("/getBuyerBalanceInExchange", async (req, res, next) => {
+    let balance = await connectFabricNetwork.getBuyerBalanceInExchange();
+    res.json(JSON.parse(balance));
+});

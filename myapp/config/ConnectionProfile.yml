@@ -1,0 +1,232 @@
+---
+# [Required]. A connection profile contains information about a set of network
+# components. It is typically used to configure gateway, allowing applications
+# interact with a network channel without worrying about the underlying
+# topology. A connection profile is normally created by an administrator who
+# understands this topology.
+#
+name: "Buyer Seller Network"
+# [Optional]. Analogous to HTTP, properties with an "x-" prefix are deemed
+# "application-specific", and ignored by the gateway. For example, property
+# "x-type" with value "hlfv1" was originally used to identify a connection
+# profile for Fabric 1.x rather than 0.x.
+#
+x-type: "hlfv1"
+#
+# [Required]. A short description of the connection profile
+#
+description: "A connection profile for this simple seller and buyer network"
+#
+# [Required]. Connection profile schema version. Used by the gateway to
+# interpret these data.
+#
+version: "1.0"
+#
+# [Optional]. A logical description of each network channel; its peer and
+# orderer names and their roles within the channel. The physical details of
+# these components (e.g. peer IP addresses) will be specified later in the
+# profile; we focus first on the logical, and then the physical.
+#
+channels:
+  #
+  # [Optional]. tradenet is the only channel in this connection profile
+  #
+  c1:
+    #
+    # [Optional]. Channel orderers for tradeNet. Details of how to connect to
+    # them is specified later, under the physical "orderers:" section
+    #
+    orderers:
+      #
+      # [Required]. Orderer logical name
+      #
+        - orderer.yunxi.com
+      #
+      # [Optional]. Peers and their roles
+      #
+    peers:
+    #
+    # [Required]. Peer logical name
+    #
+      peer0.seller.yunxi.com:
+        #
+        # [Optional]. Is this an endorsing peer? (It must have chaincode
+        # installed.) Default: true
+        #
+        endorsingPeer: true
+        #
+        # [Optional]. Is this peer used for query? (It must have chaincode
+        # installed.) Default: true
+        #
+        chaincodeQuery: true
+        #
+        # [Optional]. Is this peer used for non-chaincode queries? All peers
+        # support these types of queries, which include queryBlock(),
+        # queryTransaction(), etc. Default: true
+        #
+        ledgerQuery: true
+        #
+        # [Optional]. Is this peer used as an event hub? All peers can produce
+        # events. Default: true
+        #
+        eventSource: true
+      #
+      peer0.buyer.yunxi.com:
+        endorsingPeer: true
+        chaincodeQuyer: true
+        ledgerQuery: true
+        eventSource: true
+#
+# [Required]. List of organizations for all channels. At least one organization
+# is required.
+#
+organizations:
+  #
+  # [Required]. Organizational information for Seller
+  #
+  Seller:
+    #
+    # [Required]. The MSPID used to identify Seller
+    #
+    mspid: SellerMSP
+    #
+    # [Required]. The Seller peers
+    #
+    peers:
+      - peer0.seller.yunxi.com
+    #
+    # [Optional]. Fabric-CA Certificate Authorities.
+    #
+    certificateAuthorities:
+      - ca.seller.yunxi.com
+    signedCert: 
+      path: ../crypto-config/peerOrganizations/seller.yunxi.com/users/Admin@seller.yunxi.com/msp/signcerts/Admin@seller.yunxi.com-cert.pem
+  #
+  # [Optional]. Organizational information for Buyer
+  #
+  Buyer:
+    #
+    # [Required]. The MSPID used to identify Buyer
+    #
+    mspid: BuyerMSP
+    #
+    # [Required]. The Buyer peers
+    #
+    peers:
+      - peer0.buyer.yunxi.com
+    certificateAuthorities:
+      - ca.buyer.yunxi.com
+    signedCert: 
+      path: ../crypto-config/peerOrganizations/buyer.yunxi.com/users/Admin@buyer.yunxi.com/msp/signcerts/Admin@buyer.yunxi.com-cert.pem
+#
+# [Optional]. Orderer physical information, by orderer name
+# 
+orderers:
+  #
+  # [Required]. Name of Seller orderer
+  #
+  orderer.yunxi.com:
+    #
+    # [Required]. This orderer's IP address
+    #
+    url: grpcs://localhost:7050
+    #
+    # [Optional]. gRPC connection properties used for communication
+    #
+    grpcOptions:
+      ssl-target-name-override: orderer.yunxi.com
+      grpc-max-send-message-length: 15
+    tlsCACerts: 
+      path: ../crypto-config/ordererOrganizations/yunxi.com/msp/tlscacerts/tlsca.yunxi.com-cert.pem
+#
+# [Required]. Peer physical information, by peer name. At least one peer is
+# required.
+#
+peers:
+  #
+  # [Required]. Seller peer physical properties
+  #
+  peer0.seller.yunxi.com:
+    #
+    # [Required]. Peer's IP address
+    #
+    url: grpcs://localhost:7051
+    eventUrl: grpcs://localhost:7053
+    #
+    # [Optional]. gRPC connection properties used for communication
+    #
+    grpcOptions:
+      ssl-target-name-override: peer0.seller.yunxi.com
+      request-timeout: 120001
+    tlsCACerts: 
+      path: ../crypto-config/peerOrganizations/seller.yunxi.com/peers/peer0.seller.yunxi.com/msp/tlscacerts/tlsca.seller.yunxi.com-cert.pem
+  #
+  # [Required]. Buyer peer physical properties
+  #
+  peer0.buyer.yunxi.com:
+    url: grpcs://localhost:9051
+    eventUrl: grpcs://localhost:9053
+    grpcOptions:
+      ssl-target-name-override: peer0.buyer.yunxi.com
+      request-timeout: 120001
+    tlsCACerts: 
+      path: ../crypto-config/peerOrganizations/buyer.yunxi.com/peers/peer0.buyer.yunxi.com/msp/tlscacerts/tlsca.buyer.yunxi.com-cert.pem
+#
+# [Optional]. Fabric-CA Certificate Authority physical information, by name.
+# This information can be used to (e.g.) enroll new users. Communication is via
+# REST, hence options relate to HTTP rather than gRPC.
+#
+# certificateAuthorities:
+#   #
+#   # [Required]. Seller's CA
+#   #
+#   ca.seller.yunxi.com:
+#   #
+#   # [Required]. CA IP address
+#   #
+#   url: http://localhost:7053
+#   #
+#   # [Optioanl]. HTTP connection properties used for communication
+#   #
+#   httpOptions:
+#     verify: false
+#   tlsCACerts:
+#     path: crypto-config/peerOrganizations/seller.yunxi.com/ca.seller.yunxi.com-cert.pem
+#   #
+#   # [Optional]. Fabric-CA supports Certificate Signing Requests (CSRs). A
+#   # registrar is needed to enroll new users.
+#   #
+#   registrar:
+#     - enrollId: admin
+#     enrollSecret: adminpw
+#   #
+#   # [Optional]. The name of the CA.
+#   #
+#   caName: ca-seller
+# certificateAuthorities:
+#   #
+#   # [Required]. Buyer's CA
+#   #
+#   ca.buyer.yunxi.com:
+#   #
+#   # [Required]. CA IP address
+#   #
+#   url: http://localhost:7053
+#   #
+#   # [Optioanl]. HTTP connection properties used for communication
+#   #
+#   httpOptions:
+#     verify: false
+#   tlsCACerts:
+#     path: crypto-config/peerOrganizations/buyer.yunxi.com/ca.buyer.yunxi.com-cert.pem
+#   #
+#   # [Optional]. Fabric-CA supports Certificate Signing Requests (CSRs). A
+#   # registrar is needed to enroll new users.
+#   #
+#   registrar:
+#     - enrollId: admin
+#     enrollSecret: adminpw
+#   #
+#   # [Optional]. The name of the CA.
+#   #
+#   caName: ca-seller

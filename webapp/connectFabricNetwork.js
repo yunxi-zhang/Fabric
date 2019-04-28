@@ -7,13 +7,19 @@ const sellerWallet = new FileSystemWallet('./identity/user/seller/wallet');
 const buyerWallet = new FileSystemWallet('./identity/user/buyer/wallet');
 const sellerUserName = 'Admin@seller.yunxi.com';
 const buyerUserName = 'Admin@buyer.yunxi.com';
+const CONNECTION_PROFILE_PATH = './config/ConnectionProfile.yml';
+const UTF8 = 'utf8';
+const CHANNEL_NAME = 'c1';
+const CHAINCODE_NAME = 'cc';
+const CHAINCODE_QUERY_FUNCTION_NAME = 'get';
+const CHAINCODE_QUERY_KEY = 'row1';
 
 // A gateway defines the peers used to access Fabric networks
 const gateway = new Gateway();
     
 async function getSellerBalance(){
     try {
-        const connectionProfile = yaml.safeLoad(fs.readFileSync('./config/ConnectionProfile.yml', 'utf8'));
+        const connectionProfile = yaml.safeLoad(fs.readFileSync(CONNECTION_PROFILE_PATH, UTF8));
         let connectionOptions = {
             identity: sellerUserName,
             wallet: sellerWallet,
@@ -23,13 +29,13 @@ async function getSellerBalance(){
         console.log('Connecting to Fabric gateway...');
         await gateway.connect(connectionProfile, connectionOptions);
 
-        const network = await gateway.getNetwork('c1');
+        const network = await gateway.getNetwork(CHANNEL_NAME);
         console.log('Use channel:', network.channel._name);
     
-        const contract = await network.getContract('cc');
+        const contract = await network.getContract(CHAINCODE_NAME);
         console.log('Use chaincode:', contract.chaincodeId);
     
-        const queryResponse = await contract.evaluateTransaction("get", "sellerBalance")
+        const queryResponse = await contract.evaluateTransaction(CHAINCODE_QUERY_FUNCTION_NAME, CHAINCODE_QUERY_KEY);
         return queryResponse.toString();
     } catch (error) {
         console.log(`Error processing transaction. ${error}`);
@@ -43,7 +49,7 @@ async function getSellerBalance(){
 
 async function getBuyerBalance(){
     try {
-        const connectionProfile = yaml.safeLoad(fs.readFileSync('./config/ConnectionProfile.yml', 'utf8'));
+        const connectionProfile = yaml.safeLoad(fs.readFileSync(CONNECTION_PROFILE_PATH, UTF8));
         let connectionOptions = {
             identity: buyerUserName,
             wallet: buyerWallet,
@@ -53,13 +59,13 @@ async function getBuyerBalance(){
         console.log('Connecting to Fabric gateway...');
         await gateway.connect(connectionProfile, connectionOptions);
 
-        const network = await gateway.getNetwork('c1');
+        const network = await gateway.getNetwork(CHANNEL_NAME);
         console.log('Use channel:', network.channel._name);
     
-        const contract = await network.getContract('cc');
+        const contract = await network.getContract(CHAINCODE_NAME);
         console.log('Use chaincode:', contract.chaincodeId);
     
-        const queryResponse = await contract.evaluateTransaction("get", "buyerBalance")
+        const queryResponse = await contract.evaluateTransaction(CHAINCODE_QUERY_FUNCTION_NAME, CHAINCODE_QUERY_KEY);
         return queryResponse.toString();
     } catch (error) {
         console.log(`Error processing transaction. ${error}`);

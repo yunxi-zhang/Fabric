@@ -31,7 +31,7 @@ channels:
   #
   # [Optional]. tradenet is the only channel in this connection profile
   #
-  c1:
+  channel-seller:
     #
     # [Optional]. Channel orderers for tradeNet. Details of how to connect to
     # them is specified later, under the physical "orderers:" section
@@ -71,7 +71,23 @@ channels:
         #
         eventSource: true
       #
+      peer0.bank.yunxi.com:
+        endorsingPeer: true
+        chaincodeQuyer: true
+        ledgerQuery: true
+        eventSource: true
+
+  channel-buyer:
+    orderers:
+        - orderer.yunxi.com
+    peers:
       peer0.buyer.yunxi.com:
+        endorsingPeer: true
+        chaincodeQuery: true
+        ledgerQuery: true
+        eventSource: true
+        
+      peer0.bank.yunxi.com:
         endorsingPeer: true
         chaincodeQuyer: true
         ledgerQuery: true
@@ -82,45 +98,44 @@ channels:
 #
 organizations:
   #
-  # [Required]. Organizational information for Seller
+  # [Required]. Organizational information for Bank
   #
-  Seller:
+  Bank:
     #
-    # [Required]. The MSPID used to identify Seller
+    # [Required]. The MSPID used to identify Bank
     #
-    mspid: SellerMSP
+    mspid: BankMSP
     #
-    # [Required]. The Seller peers
+    # [Required]. The Bank peers
     #
     peers:
-      - peer0.seller.yunxi.com
+      - peer0.bank.yunxi.com
     #
     # [Optional]. Fabric-CA Certificate Authorities.
     #
     certificateAuthorities:
+      - ca.bank.yunxi.com
+    signedCert: 
+      path: ../crypto-config/peerOrganizations/bank.yunxi.com/users/Admin@bank.yunxi.com/msp/signcerts/Admin@bank.yunxi.com-cert.pem
+
+  Seller:
+    mspid: SellerMSP
+    peers:
+      - peer0.seller.yunxi.com
+    certificateAuthorities:
       - ca.seller.yunxi.com
     signedCert: 
       path: ../crypto-config/peerOrganizations/seller.yunxi.com/users/Admin@seller.yunxi.com/msp/signcerts/Admin@seller.yunxi.com-cert.pem
-  #
-  # [Optional]. Organizational information for Buyer
-  #
+
   Buyer:
-    #
-    # [Required]. The MSPID used to identify Buyer
-    #
     mspid: BuyerMSP
-    #
-    # [Required]. The Buyer peers
-    #
     peers:
       - peer0.buyer.yunxi.com
     certificateAuthorities:
       - ca.buyer.yunxi.com
     signedCert: 
       path: ../crypto-config/peerOrganizations/buyer.yunxi.com/users/Admin@buyer.yunxi.com/msp/signcerts/Admin@buyer.yunxi.com-cert.pem
-#
-# [Optional]. Orderer physical information, by orderer name
-# 
+
 orderers:
   #
   # [Required]. Name of Seller orderer
@@ -146,7 +161,7 @@ peers:
   #
   # [Required]. Seller peer physical properties
   #
-  peer0.seller.yunxi.com:
+  peer0.bank.yunxi.com:
     #
     # [Required]. Peer's IP address
     #
@@ -155,6 +170,17 @@ peers:
     #
     # [Optional]. gRPC connection properties used for communication
     #
+    grpcOptions:
+      ssl-target-name-override: peer0.bank.yunxi.com
+      request-timeout: 120001
+    tlsCACerts: 
+      path: ../crypto-config/peerOrganizations/bank.yunxi.com/peers/peer0.bank.yunxi.com/msp/tlscacerts/tlsca.bank.yunxi.com-cert.pem
+  #
+  # [Required]. Seller peer physical properties
+  #
+  peer0.seller.yunxi.com:
+    url: grpcs://localhost:8051
+    eventUrl: grpcs://localhost:8053
     grpcOptions:
       ssl-target-name-override: peer0.seller.yunxi.com
       request-timeout: 120001

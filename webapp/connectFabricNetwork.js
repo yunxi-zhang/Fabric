@@ -9,10 +9,12 @@ const sellerUserName = 'Admin@seller.yunxi.com';
 const buyerUserName = 'Admin@buyer.yunxi.com';
 const CONNECTION_PROFILE_PATH = './config/ConnectionProfile.yml';
 const UTF8 = 'utf8';
-const CHANNEL_NAME = 'c1';
+const CHANNEL_NAME1 = 'channel-seller';
+const CHANNEL_NAME2 = 'channel-buyer';
 const CHAINCODE_NAME = 'cc';
 const CHAINCODE_QUERY_FUNCTION_NAME = 'get';
-const CHAINCODE_QUERY_KEY = 'row1';
+const SELLER_BALANCE_QUERY_KEY = 'sellerBalance';
+const BUYER_BALANCE_QUERY_KEY = 'buyerBalance';
 
 // A gateway defines the peers used to access Fabric networks
 const gateway = new Gateway();
@@ -29,13 +31,13 @@ async function getSellerBalance(){
         console.log('Connecting to Fabric gateway...');
         await gateway.connect(connectionProfile, connectionOptions);
 
-        const network = await gateway.getNetwork(CHANNEL_NAME);
+        const network = await gateway.getNetwork(CHANNEL_NAME1);
         console.log('Use channel:', network.channel._name);
     
         const contract = await network.getContract(CHAINCODE_NAME);
         console.log('Use chaincode:', contract.chaincodeId);
     
-        const queryResponse = await contract.evaluateTransaction(CHAINCODE_QUERY_FUNCTION_NAME, CHAINCODE_QUERY_KEY);
+        const queryResponse = await contract.evaluateTransaction(CHAINCODE_QUERY_FUNCTION_NAME, SELLER_BALANCE_QUERY_KEY);
         return queryResponse.toString();
     } catch (error) {
         console.log(`Error processing transaction. ${error}`);
@@ -59,13 +61,13 @@ async function getBuyerBalance(){
         console.log('Connecting to Fabric gateway...');
         await gateway.connect(connectionProfile, connectionOptions);
 
-        const network = await gateway.getNetwork(CHANNEL_NAME);
+        const network = await gateway.getNetwork(CHANNEL_NAME2);
         console.log('Use channel:', network.channel._name);
     
         const contract = await network.getContract(CHAINCODE_NAME);
         console.log('Use chaincode:', contract.chaincodeId);
     
-        const queryResponse = await contract.evaluateTransaction(CHAINCODE_QUERY_FUNCTION_NAME, CHAINCODE_QUERY_KEY);
+        const queryResponse = await contract.evaluateTransaction(CHAINCODE_QUERY_FUNCTION_NAME, BUYER_BALANCE_QUERY_KEY);
         return queryResponse.toString();
     } catch (error) {
         console.log(`Error processing transaction. ${error}`);

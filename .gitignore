@@ -9,6 +9,9 @@ channel-artifacts/
 scripts/
 !webapp/config/
 webapp/identity/user/**/wallet/
+webappbank/
+webappbuyer/
+webappseller/
 
 ### macOS ###
 # General

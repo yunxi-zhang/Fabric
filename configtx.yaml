@@ -74,18 +74,9 @@ Organizations:
               Port: 7051
 
     - &Buyer
-        # DefaultOrg defines the organization which is used in the sampleconfig
-        # of the fabric.git development environment
         Name: BuyerMSP
-
-        # ID to load the MSP definition as
         ID: BuyerMSP
-
         MSPDir: crypto-config/peerOrganizations/buyer.yunxi.com/msp
-
-        # Policies defines the set of policies at this level of the config tree
-        # For organization policies, their canonical path is usually
-        #   /Channel/<Application|Orderer>/<OrgName>/<PolicyName>
         Policies:
             Readers:
                 Type: Signature
@@ -96,12 +87,25 @@ Organizations:
             Admins:
                 Type: Signature
                 Rule: "OR('BuyerMSP.admin', 'BuyerMSP.peer')"
-
         AnchorPeers:
-            # AnchorPeers defines the location of peers which can be used
-            # for cross org gossip communication.  Note, this value is only
-            # encoded in the genesis block in the Application section context
             - Host: peer0.buyer.yunxi.com
+              Port: 7051
+    - &Bank
+        Name: BankMSP
+        ID: BankMSP
+        MSPDir: crypto-config/peerOrganizations/bank.yunxi.com/msp
+        Policies:
+            Readers:
+                Type: Signature
+                Rule: "OR('BankMSP.admin', 'BankMSP.peer', 'BankMSP.client')"
+            Writers:
+                Type: Signature
+                Rule: "OR('BankMSP.admin', 'BankMSP.peer', 'BankMSP.client')"
+            Admins:
+                Type: Signature
+                Rule: "OR('BankMSP.admin', 'BankMSP.peer')"
+        AnchorPeers:
+            - Host: peer0.bank.yunxi.com
               Port: 7051
 
 ################################################################################
@@ -299,7 +303,7 @@ Channel: &ChannelDefaults
 ################################################################################
 Profiles:
 
-    TwoOrgsOrdererGenesis:
+    OrdererGenesis:
         <<: *ChannelDefaults
         Orderer:
             <<: *OrdererDefaults
@@ -308,20 +312,32 @@ Profiles:
             Capabilities:
                 <<: *OrdererCapabilities
         Consortiums:
-            SampleConsortium:
+            SellerBankConsortium:
                 Organizations:
                     - *Seller
+                    - *Bank
+            BuyerBankConsortium:
+                Organizations:
                     - *Buyer
-    TwoOrgsChannel:
-        Consortium: SampleConsortium
+                    - *Bank
+    ChannelSeller:
+        Consortium: SellerBankConsortium
         Application:
             <<: *ApplicationDefaults
             Organizations:
                 - *Seller
-                - *Buyer
+                - *Bank
             Capabilities:
                 <<: *ApplicationCapabilities
-
+    ChannelBuyer:
+        Consortium: BuyerBankConsortium
+        Application:
+            <<: *ApplicationDefaults
+            Organizations:
+                - *Buyer
+                - *Bank
+            Capabilities:
+                <<: *ApplicationCapabilities
     SampleDevModeKafka:
         <<: *ChannelDefaults
         Capabilities:

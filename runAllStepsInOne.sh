@@ -36,9 +36,14 @@ ls -al scripts
 # Step 8: run all other shell files for this project
 stepInfo "Step 8: Run All Other Shell Files In This Project"
 # export this variable so the sub shell files can use it
-channelName=c1
-stepInfo "The channel name is: $channelName" 
-export CHANNEL_NAME=$channelName
+export CHANNEL_PROFILE1=ChannelSeller
+export CHANNEL_PROFILE2=ChannelBuyer
+channelName1=channel-seller
+channelName2=channel-buyer
+stepInfo "The 1st channel name is: $channelName1" 
+stepInfo "The 2nd channel name is: $channelName2" 
+export CHANNEL_NAME1=$channelName1
+export CHANNEL_NAME2=$channelName2
 ./stage1_downloadbin.sh
 ./stage2_generateKey.sh
 ./stage3_generateConfigTx.sh

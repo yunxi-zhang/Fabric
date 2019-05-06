@@ -76,4 +76,11 @@ PeerOrgs:
       Count: 1
     Users:
       Count: 1
+  - Name: Bank
+    Domain: bank.yunxi.com
+    EnableNodeOUs: true
+    Template: 
+      Count: 1
+    Users:
+      Count: 1
    

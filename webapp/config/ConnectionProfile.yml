@@ -150,7 +150,7 @@ orderers:
     #
     grpcOptions:
       ssl-target-name-override: orderer.yunxi.com
-      grpc-max-send-message-length: 15
+      grpc-max-send-message-length: 150000
     tlsCACerts: 
       path: ../crypto-config/ordererOrganizations/yunxi.com/msp/tlscacerts/tlsca.yunxi.com-cert.pem
 #

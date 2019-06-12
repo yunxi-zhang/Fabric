@@ -40,9 +40,9 @@ const Chaincode = class {
         }
     }
 
-    async get(stub, args) {
-        console.log('========= Get Function =========');
-        console.log(args);
+    async getBalance(stub, args) {
+        console.log('========= getBalance Function =========');
+        console.log('args[0]:',args[0]);
 
         let value = await stub.getState(args[0]);
         if (value.toString() && value.toString() !== null) {
@@ -53,13 +53,15 @@ const Chaincode = class {
         }
     }
 
-    async update(stub, args) {
-        console.log('========= Update Function =========');
-        console.log(args);
+    async updateBalance(stub, args) {
+        console.log('========= updateBalance Function =========');
         console.log("args[0]:" + args[0]);
-        console.log("args[1]:" + args[1]);
-
-        await stub.putState(args[0], Buffer.from(args[1]));
+        // args[0] looks like
+        // {
+        //     "key": "xBalance",
+        //     "value": "20"
+        // }
+        await stub.putState(JSON.parse(args[0]).key, Buffer.from(JSON.parse(args[0]).value));
     }
 
     async delete(stub,args) {

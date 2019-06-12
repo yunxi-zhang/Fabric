@@ -61,3 +61,6 @@ stepInfo "End of sleeping"
 
 # stage 6: install chaincode on peers 
 ./stage6_installAndInstantiateChaincode.sh
+
+# stage 7: run all web servers
+./stage7_runWebServers.sh

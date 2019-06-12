@@ -9,7 +9,7 @@ const bankWallet = new FileSystemWallet(BANK_WALLET_PATH);
 const CHANNEL_NAME1 = 'channel-seller';
 const CHANNEL_NAME2 = 'channel-buyer';
 const CHAINCODE_NAME = 'cc';
-const CHAINCODE_QUERY_FUNCTION_NAME = 'get';
+const CHAINCODE_QUERY_FUNCTION_NAME = 'getBalance';
 const SELLER_BALANCE_QUERY_KEY = 'sellerBalance';
 const BUYER_BALANCE_QUERY_KEY = 'buyerBalance';
 

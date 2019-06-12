@@ -8,7 +8,8 @@ const BUYER_WALLET_PATH = path.resolve(__dirname, '../wallet');
 const buyerWallet = new FileSystemWallet(BUYER_WALLET_PATH);
 const CHANNEL_NAME2 = 'channel-buyer';
 const CHAINCODE_NAME = 'cc';
-const CHAINCODE_QUERY_FUNCTION_NAME = 'get';
+const GET_BALANCE_FUNCTION_NAME = 'getBalance';
+const UPDATE_BALANCE_FUNCTION_NAME = 'updateBalance';
 const BUYER_BALANCE_QUERY_KEY = 'buyerBalance';
 
 // A gateway defines the peers used to access Fabric networks
@@ -27,7 +28,7 @@ async function getBuyerBalance(){
         const contract = await network.getContract(CHAINCODE_NAME);
         console.log('Use chaincode:', contract.chaincodeId);
     
-        const queryResponse = await contract.evaluateTransaction(CHAINCODE_QUERY_FUNCTION_NAME, BUYER_BALANCE_QUERY_KEY);
+        const queryResponse = await contract.evaluateTransaction(GET_BALANCE_FUNCTION_NAME, BUYER_BALANCE_QUERY_KEY);
         return queryResponse.toString();
     } catch (error) {
         console.log(`Error processing transaction. ${error}`);
@@ -39,6 +40,37 @@ async function getBuyerBalance(){
     }    
 }
 
+async function updateBuyerBalance(userInput){
+    try {
+        const connection = await connectionFabricNetwork.setupConnection(buyerUserName, buyerWallet);
+        // Connect to gateway using application specified parameters
+        console.log('Connecting to Fabric gateway...');
+        await gateway.connect(connection[0], connection[1]);
+        
+        const network = await gateway.getNetwork(CHANNEL_NAME2);
+        console.log('Use channel:', network.channel._name);
+    
+        const contract = await network.getContract(CHAINCODE_NAME);
+        console.log('Use chaincode:', contract.chaincodeId);
+        const transactionID = await contract.createTransaction(UPDATE_BALANCE_FUNCTION_NAME).getTransactionID().getTransactionID();
+        try{
+            await contract.submitTransaction(UPDATE_BALANCE_FUNCTION_NAME, userInput);
+            return transactionID;
+        } catch (err) {
+            return err;
+        }
+
+    } catch (error) {
+        console.log(`Error processing transaction. ${error}`);
+        console.log(error.stack);
+    } finally {
+        // Disconnect from the gateway
+        console.log('Disconnect from Fabric gateway.')
+        gateway.disconnect();
+    }    
+}
+
 module.exports = {
-    getBuyerBalance
+    getBuyerBalance,
+    updateBuyerBalance
 }; 

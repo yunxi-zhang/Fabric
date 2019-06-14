@@ -47,6 +47,7 @@ export CHANNEL_NAME2=$channelName2
 ./stage1_downloadbin.sh
 ./stage2_generateKey.sh
 ./stage3_generateConfigTx.sh
+figlet Start Setting Up Hyperledger Fabric Network
 ./stage4_runDockerCompose.sh
 
 # Step 9: show all the running docker containers
@@ -61,6 +62,13 @@ stepInfo "End of sleeping"
 
 # stage 6: install chaincode on peers 
 ./stage6_installAndInstantiateChaincode.sh
+figlet Complete Setting Up Hyperledger Fabric Network
 
+sleep 5
+echo '----------------------------------------------------------------------------------------------------'
+
+
+figlet Start Setting Up Web Servers
 # stage 7: run all web servers
 ./stage7_runWebServers.sh
+figlet Complete Setting Up Web Servers

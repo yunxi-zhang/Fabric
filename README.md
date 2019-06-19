@@ -21,7 +21,7 @@ Run the file called 'runAllStepsInOne.sh' file, will auto set up a Fabric blockc
 ## Case Description
 The case scenairo in this repo is a fake one, it only demonstrates how Fabric can use different channels to set the right permission control to the the right organisations to access the right chaincode. Three organisations: (1) bank, (2) seller and (3) buyer are invovled in this repo. Two separate channels are set up. "ChannelSeller" is set up for the bank and seller only and "ChannelBuyer" is set up for the bank and buyer only. The detailed channel configuration can be found in the file called "configtx.yaml". 
 
-The following shows the channel config in the configtx.yaml file.
+The following shows the channel config section on line 304 in the configtx.yaml file.
     Profiles:
 
         OrdererGenesis:
@@ -61,3 +61,17 @@ The following shows the channel config in the configtx.yaml file.
                     <<: *ApplicationCapabilities
 
 These two channel names will be used when creating artifact files for channel creation. In this repo, the two channel names are defined as two separate environment variables (i.e. $CHANNEL_PROFILE1 and $CHANNEL_PROFILE2) in the "runAllStepsInOne.sh" file. They will be called in the "stage3_generateConfigTx.sh" file. Also, the "OrdererGenesis" in the "Profiles" section will be used in the "stage3_generateConfigTx.sh" file as well for generating the genesis block file. 
+
+The following shows the two variables on line 39 in the "runAllStepsInOne.sh" file. 
+    export CHANNEL_PROFILE1=ChannelSeller
+    export CHANNEL_PROFILE2=ChannelBuyer
+
+The following shows where the "OrdererGenesis" and "ChannelSeller" are used in the "stage3_generateConfigTx.sh" file.
+    ./bin/configtxgen -configPath ./ -profile OrdererGenesis -outputBlock ./channel-artifacts/genesis.block 
+    ./bin/configtxgen -configPath ./ -profile $CHANNEL_PROFILE1 -outputCreateChannelTx ./channel-artifacts/$CHANNEL_NAME1.tx -channelID $CHANNEL_NAME1
+    stepInfo "Generating files for $CHANNEL_NAME1"
+    # generate channel transaction artifact in channel1
+    # generate anchor peer for seller in channel1
+    ./bin/configtxgen -configPath ./ -profile $CHANNEL_PROFILE1 -outputAnchorPeersUpdate ./channel-artifacts/sellerMSPanchors_$CHANNEL_NAME1.tx -channelID $CHANNEL_NAME1 -asOrg SellerMSP
+    # generate anchor peer for bank in channel1
+    ./bin/configtxgen -configPath ./ -profile $CHANNEL_PROFILE1 -outputAnchorPeersUpdate ./channel-artifacts/bankMSPanchors_$CHANNEL_NAME1.tx -channelID $CHANNEL_NAME1 -asOrg BankMSP

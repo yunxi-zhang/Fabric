@@ -21,4 +21,43 @@ Run the file called 'runAllStepsInOne.sh' file, will auto set up a Fabric blockc
 ## Case Description
 The case scenairo in this repo is a fake one, it only demonstrates how Fabric can use different channels to set the right permission control to the the right organisations to access the right chaincode. Three organisations: (1) bank, (2) seller and (3) buyer are invovled in this repo. Two separate channels are set up. "ChannelSeller" is set up for the bank and seller only and "ChannelBuyer" is set up for the bank and buyer only. The detailed channel configuration can be found in the file called "configtx.yaml". 
 
+The following shows the channel config in the configtx.yaml file.
+    Profiles:
+
+        OrdererGenesis:
+            <<: *ChannelDefaults
+            Orderer:
+                <<: *OrdererDefaults
+                Organizations:
+                    - *OrdererOrg
+                Capabilities:
+                    <<: *OrdererCapabilities
+            Consortiums:
+                SellerBankConsortium:
+                    Organizations:
+                        - *Seller
+                        - *Bank
+                BuyerBankConsortium:
+                    Organizations:
+                        - *Buyer
+                        - *Bank
+        ChannelSeller:
+            Consortium: SellerBankConsortium
+            Application:
+                <<: *ApplicationDefaults
+                Organizations:
+                    - *Seller
+                    - *Bank
+                Capabilities:
+                    <<: *ApplicationCapabilities
+        ChannelBuyer:
+            Consortium: BuyerBankConsortium
+            Application:
+                <<: *ApplicationDefaults
+                Organizations:
+                    - *Buyer
+                    - *Bank
+                Capabilities:
+                    <<: *ApplicationCapabilities
+
 These two channel names will be used when creating artifact files for channel creation. In this repo, the two channel names are defined as two separate environment variables (i.e. $CHANNEL_PROFILE1 and $CHANNEL_PROFILE2) in the "runAllStepsInOne.sh" file. They will be called in the "stage3_generateConfigTx.sh" file. Also, the "OrdererGenesis" in the "Profiles" section will be used in the "stage3_generateConfigTx.sh" file as well for generating the genesis block file. 

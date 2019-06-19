@@ -66,12 +66,13 @@ The following shows the two variables on line 39 in the "runAllStepsInOne.sh" fi
     export CHANNEL_PROFILE1=ChannelSeller
     export CHANNEL_PROFILE2=ChannelBuyer
 
-The following shows where the "OrdererGenesis" and "ChannelSeller" are used in the "stage3_generateConfigTx.sh" file.
+The following shows where the "OrdererGenesis" and "ChannelSeller" are used on line 9 in the "stage3_generateConfigTx.sh" file.
 ```
     ./bin/configtxgen -configPath ./ -profile OrdererGenesis -outputBlock ./channel-artifacts/genesis.block 
     ./bin/configtxgen -configPath ./ -profile $CHANNEL_PROFILE1 -outputCreateChannelTx ./channel-artifacts/$CHANNEL_NAME1.tx -channelID $CHANNEL_NAME1
     stepInfo "Generating files for $CHANNEL_NAME1"
     # generate channel transaction artifact in channel1
+    ./bin/configtxgen -configPath ./ -profile $CHANNEL_PROFILE1 -outputCreateChannelTx ./channel-artifacts/$CHANNEL_NAME1.tx -channelID $CHANNEL_NAME1
     # generate anchor peer for seller in channel1
     ./bin/configtxgen -configPath ./ -profile $CHANNEL_PROFILE1 -outputAnchorPeersUpdate ./channel-artifacts/sellerMSPanchors_$CHANNEL_NAME1.tx -channelID $CHANNEL_NAME1 -asOrg SellerMSP
     # generate anchor peer for bank in channel1

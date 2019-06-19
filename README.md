@@ -17,3 +17,6 @@ Basically, each org will have its own web server that will receive HTTP requests
 Run the file called 'runAllStepsInOne.sh' file, will auto set up a Fabric blockchain/DLT environment and set up 3 web servers in the right order.
 
 **Note**: this file actually calls other shell files from stage 1 to stage 7 in the right order. Before running stage 1, it will remove all existing docker containers, docker images and other docker info in a machine to make sure a new blockchain environment will be set up from a clean environment. A user who would not like this feature to work that will delete other docker containers should comment out the relevant code in this file.
+
+## Case Description
+The case scenairo in this repo is a fake one, it only demonstrates how Fabric can use different channels to set the right permission control to the the right organisations to access the right chaincode. Three organisations: (1) bank, (2) seller and (3) buyer are invovled in this repo. Two separate channels are set up. ChannelSeller is set up for the bank and seller only and ChannelBuyer is set up for the bank and buyer only. The detailed channel configuration can be found in the file called "configtx.yaml". 

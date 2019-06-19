@@ -60,7 +60,7 @@ The following shows the channel config section on line 304 in the configtx.yaml 
                 Capabilities:
                     <<: *ApplicationCapabilities
 
-These two channel names will be used when creating artifact files for channel creation. In this repo, the two channel names are defined as two separate environment variables (i.e. $CHANNEL_PROFILE1 and $CHANNEL_PROFILE2) in the "runAllStepsInOne.sh" file. They will be called in the "stage3_generateConfigTx.sh" file. Also, the "OrdererGenesis" in the "Profiles" section will be used in the "stage3_generateConfigTx.sh" file as well for generating the genesis block file. 
+These two channel names will be used when creating artifact files for channel creation. In this repo, the two channel names are defined as two separate environment variables (i.e. $CHANNEL_PROFILE1 and $CHANNEL_PROFILE2) in the "runAllStepsInOne.sh" file. They will be called in the "stage3_generateConfigTx.sh" file. Also, the **OrdererGenesis** in the **Profiles** section will be used in the "stage3_generateConfigTx.sh" file as well for generating the genesis block file. 
 
 The following shows the two variables on line 39 in the "runAllStepsInOne.sh" file. 
 ```

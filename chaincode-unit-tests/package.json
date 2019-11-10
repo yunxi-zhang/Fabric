@@ -1,0 +1,23 @@
+{
+  "name": "chaincode",
+  "version": "1.0.0",
+  "description": "First chaincode",
+  "main": "chaincode.js",
+  "dependencies": {
+    "fabric-contract-api": "^1.4.0",
+    "fabric-shim": "^1.4.0",
+    "grpc": "^1.18.0"
+  },
+  "devDependencies": {
+    "@theledger/fabric-mock-stub": "^4.0.0",
+    "chai": "^4.2.0",
+    "mocha": "^6.1.4",
+    "mocha-simple-html-reporter": "^1.1.0"
+  },
+  "scripts": {
+    "start": "node chaincode.js",
+    "test": "rm report.html && mocha ./* --reporter mocha-simple-html-reporter --reporter-options output=report.html"
+  },
+  "author": "Yunxi Zhang",
+  "license": "ISC"
+}

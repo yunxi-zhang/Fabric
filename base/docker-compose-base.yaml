@@ -2,8 +2,8 @@ version: '2'
 
 services:
 
-  orderer.yunxi.com:
-    container_name: orderer.yunxi.com
+  orderer.admincom:
+    container_name: orderer.admincom
     image: hyperledger/fabric-orderer:$IMAGE_TAG
     environment:
       - FABRIC_LOGGING_SPEC=INFO
@@ -23,70 +23,70 @@ services:
     command: orderer
     volumes:
         - ../channel-artifacts/genesis.block:/var/hyperledger/orderer/orderer.genesis.block
-        - ../crypto-config/ordererOrganizations/yunxi.com/orderers/orderer.yunxi.com/msp:/var/hyperledger/orderer/msp
-        - ../crypto-config/ordererOrganizations/yunxi.com/orderers/orderer.yunxi.com/tls/:/var/hyperledger/orderer/tls
-        - ../crypto-config/ordererOrganizations/yunxi.com/orderers/orderer.yunxi.com:/var/hyperledger/production/orderer
+        - ../crypto-config/ordererOrganizations/admincom/orderers/orderer.admincom/msp:/var/hyperledger/orderer/msp
+        - ../crypto-config/ordererOrganizations/admincom/orderers/orderer.admincom/tls/:/var/hyperledger/orderer/tls
+        - ../crypto-config/ordererOrganizations/admincom/orderers/orderer.admincom:/var/hyperledger/production/orderer
     ports:
       - 7050:7050
 
-  peer0.bank.yunxi.com:
-    container_name: peer0.bank.yunxi.com
+  peer0.bank.admincom:
+    container_name: peer0.bank.admincom
     extends:
       file: peer-base.yaml
       service: peer-base
     environment:
-      - CORE_PEER_ID=peer0.bank.yunxi.com
-      - CORE_PEER_ADDRESS=peer0.bank.yunxi.com:7051
-      - CORE_PEER_GOSSIP_BOOTSTRAP=peer0.bank.yunxi.com:7051
-      - CORE_PEER_GOSSIP_EXTERNALENDPOINT=peer0.bank.yunxi.com:7051
+      - CORE_PEER_ID=peer0.bank.admincom
+      - CORE_PEER_ADDRESS=peer0.bank.admincom:7051
+      - CORE_PEER_GOSSIP_BOOTSTRAP=peer0.bank.admincom:7051
+      - CORE_PEER_GOSSIP_EXTERNALENDPOINT=peer0.bank.admincom:7051
       - CORE_PEER_LOCALMSPID=BankMSP
     volumes:
         - /var/run/:/host/var/run/
-        - ../crypto-config/peerOrganizations/bank.yunxi.com/peers/peer0.bank.yunxi.com/msp:/etc/hyperledger/fabric/msp
-        - ../crypto-config/peerOrganizations/bank.yunxi.com/peers/peer0.bank.yunxi.com/tls:/etc/hyperledger/fabric/tls
-        - ../crypto-config/peerOrganizations/bank.yunxi.com/peers/peer0.bank.yunxi.com:/var/hyperledger/production
+        - ../crypto-config/peerOrganizations/bank.admincom/peers/peer0.bank.admincom/msp:/etc/hyperledger/fabric/msp
+        - ../crypto-config/peerOrganizations/bank.admincom/peers/peer0.bank.admincom/tls:/etc/hyperledger/fabric/tls
+        - ../crypto-config/peerOrganizations/bank.admincom/peers/peer0.bank.admincom:/var/hyperledger/production
         - ../chaincode/:/opt/gopath/src/github.com/chaincode
     ports:
       - 7051:7051
       - 7053:7053
 
-  peer0.seller.yunxi.com:
-    container_name: peer0.seller.yunxi.com
+  peer0.seller.admincom:
+    container_name: peer0.seller.admincom
     extends:
       file: peer-base.yaml
       service: peer-base
     environment:
-      - CORE_PEER_ID=peer0.seller.yunxi.com
-      - CORE_PEER_ADDRESS=peer0.seller.yunxi.com:7051
-      - CORE_PEER_GOSSIP_BOOTSTRAP=peer0.seller.yunxi.com:7051
-      - CORE_PEER_GOSSIP_EXTERNALENDPOINT=peer0.seller.yunxi.com:7051
+      - CORE_PEER_ID=peer0.seller.admincom
+      - CORE_PEER_ADDRESS=peer0.seller.admincom:7051
+      - CORE_PEER_GOSSIP_BOOTSTRAP=peer0.seller.admincom:7051
+      - CORE_PEER_GOSSIP_EXTERNALENDPOINT=peer0.seller.admincom:7051
       - CORE_PEER_LOCALMSPID=SellerMSP
     volumes:
         - /var/run/:/host/var/run/
-        - ../crypto-config/peerOrganizations/seller.yunxi.com/peers/peer0.seller.yunxi.com/msp:/etc/hyperledger/fabric/msp
-        - ../crypto-config/peerOrganizations/seller.yunxi.com/peers/peer0.seller.yunxi.com/tls:/etc/hyperledger/fabric/tls
-        - ../crypto-config/peerOrganizations/seller.yunxi.com/peers/peer0.seller.yunxi.com:/var/hyperledger/production
+        - ../crypto-config/peerOrganizations/seller.admincom/peers/peer0.seller.admincom/msp:/etc/hyperledger/fabric/msp
+        - ../crypto-config/peerOrganizations/seller.admincom/peers/peer0.seller.admincom/tls:/etc/hyperledger/fabric/tls
+        - ../crypto-config/peerOrganizations/seller.admincom/peers/peer0.seller.admincom:/var/hyperledger/production
         - ../chaincode/:/opt/gopath/src/github.com/chaincode
     ports:
       - 8051:7051
       - 8053:7053
 
-  peer0.buyer.yunxi.com:
-    container_name: peer0.buyer.yunxi.com
+  peer0.buyer.admincom:
+    container_name: peer0.buyer.admincom
     extends:
       file: peer-base.yaml
       service: peer-base
     environment:
-      - CORE_PEER_ID=peer0.buyer.yunxi.com
-      - CORE_PEER_ADDRESS=peer0.buyer.yunxi.com:7051
-      - CORE_PEER_GOSSIP_EXTERNALENDPOINT=peer0.buyer.yunxi.com:7051
-      - CORE_PEER_GOSSIP_BOOTSTRAP=peer0.buyer.yunxi.com:7051
+      - CORE_PEER_ID=peer0.buyer.admincom
+      - CORE_PEER_ADDRESS=peer0.buyer.admincom:7051
+      - CORE_PEER_GOSSIP_EXTERNALENDPOINT=peer0.buyer.admincom:7051
+      - CORE_PEER_GOSSIP_BOOTSTRAP=peer0.buyer.admincom:7051
       - CORE_PEER_LOCALMSPID=BuyerMSP
     volumes:
         - /var/run/:/host/var/run/
-        - ../crypto-config/peerOrganizations/buyer.yunxi.com/peers/peer0.buyer.yunxi.com/msp:/etc/hyperledger/fabric/msp
-        - ../crypto-config/peerOrganizations/buyer.yunxi.com/peers/peer0.buyer.yunxi.com/tls:/etc/hyperledger/fabric/tls
-        - ../crypto-config/peerOrganizations/buyer.yunxi.com/peers/peer0.buyer.yunxi.com:/var/hyperledger/production
+        - ../crypto-config/peerOrganizations/buyer.admincom/peers/peer0.buyer.admincom/msp:/etc/hyperledger/fabric/msp
+        - ../crypto-config/peerOrganizations/buyer.admincom/peers/peer0.buyer.admincom/tls:/etc/hyperledger/fabric/tls
+        - ../crypto-config/peerOrganizations/buyer.admincom/peers/peer0.buyer.admincom:/var/hyperledger/production
         - ../chaincode/:/opt/gopath/src/github.com/chaincode
     ports:
       - 9051:7051

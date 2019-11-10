@@ -25,7 +25,7 @@ Organizations:
         ID: OrdererMSP
 
         # MSPDir is the filesystem path which contains the MSP configuration
-        MSPDir: crypto-config/ordererOrganizations/yunxi.com/msp
+        MSPDir: crypto-config/ordererOrganizations/admincom/msp
 
         # Policies defines the set of policies at this level of the config tree
         # For organization policies, their canonical path is usually
@@ -49,7 +49,7 @@ Organizations:
         # ID to load the MSP definition as
         ID: SellerMSP
 
-        MSPDir: crypto-config/peerOrganizations/seller.yunxi.com/msp
+        MSPDir: crypto-config/peerOrganizations/seller.admincom/msp
 
         # Policies defines the set of policies at this level of the config tree
         # For organization policies, their canonical path is usually
@@ -70,13 +70,13 @@ Organizations:
             # AnchorPeers defines the location of peers which can be used
             # for cross org gossip communication.  Note, this value is only
             # encoded in the genesis block in the Application section context
-            - Host: peer0.seller.yunxi.com
+            - Host: peer0.seller.admincom
               Port: 7051
 
     - &Buyer
         Name: BuyerMSP
         ID: BuyerMSP
-        MSPDir: crypto-config/peerOrganizations/buyer.yunxi.com/msp
+        MSPDir: crypto-config/peerOrganizations/buyer.admincom/msp
         Policies:
             Readers:
                 Type: Signature
@@ -88,12 +88,12 @@ Organizations:
                 Type: Signature
                 Rule: "OR('BuyerMSP.admin', 'BuyerMSP.peer')"
         AnchorPeers:
-            - Host: peer0.buyer.yunxi.com
+            - Host: peer0.buyer.admincom
               Port: 7051
     - &Bank
         Name: BankMSP
         ID: BankMSP
-        MSPDir: crypto-config/peerOrganizations/bank.yunxi.com/msp
+        MSPDir: crypto-config/peerOrganizations/bank.admincom/msp
         Policies:
             Readers:
                 Type: Signature
@@ -105,7 +105,7 @@ Organizations:
                 Type: Signature
                 Rule: "OR('BankMSP.admin', 'BankMSP.peer')"
         AnchorPeers:
-            - Host: peer0.bank.yunxi.com
+            - Host: peer0.bank.admincom
               Port: 7051
 
 ################################################################################
@@ -212,7 +212,7 @@ Orderer: &OrdererDefaults
     OrdererType: solo
 
     Addresses:
-        - orderer.yunxi.com:7050
+        - orderer.admincom:7050
 
     # Batch Timeout: The amount of time to wait before creating a batch
     BatchTimeout: 2s
@@ -347,7 +347,7 @@ Profiles:
             OrdererType: kafka
             Kafka:
                 Brokers:
-                - kafka.yunxi.com:9092
+                - kafka.admincom:9092
 
             Organizations:
             - *OrdererOrg

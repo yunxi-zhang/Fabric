@@ -7,7 +7,7 @@ let sellerDirectoryPath;
 
 // Get the path of each organisation directory that contains private key
 try {
-    sellerDirectoryPath = path.join(__dirname, '../../crypto-config/peerOrganizations/seller.yunxi.com/users/Admin@seller.yunxi.com/msp/keystore/');
+    sellerDirectoryPath = path.join(__dirname, '../../crypto-config/peerOrganizations/seller.admincom/users/Admin@seller.admincom/msp/keystore/');
 } catch (e) {
     console.log("Error in getting private key path in addToWallet.js", e);
 }
@@ -17,11 +17,11 @@ const sellerPrivateKey = fs.readdirSync(sellerDirectoryPath)[0];
 async function sellerIdentityInit() {
     // A wallet stores a collection of identities for users in seller to use
     const wallet = new FileSystemWallet('./wallet');
-    const credPath = path.resolve(__dirname, '../../crypto-config/peerOrganizations/seller.yunxi.com/users/Admin@seller.yunxi.com');
+    const credPath = path.resolve(__dirname, '../../crypto-config/peerOrganizations/seller.admincom/users/Admin@seller.admincom');
     // Identity to credentials to be stored in the wallet
-    const cert = fs.readFileSync(path.join(credPath, '/msp/signcerts/Admin@seller.yunxi.com-cert.pem')).toString();
+    const cert = fs.readFileSync(path.join(credPath, '/msp/signcerts/Admin@seller.admincom-cert.pem')).toString();
     const key = fs.readFileSync(path.join(credPath, '/msp/keystore/' + sellerPrivateKey)).toString();
-    const identityLabel = 'Admin@seller.yunxi.com';
+    const identityLabel = 'Admin@seller.admincom';
     const identity = X509WalletMixin.createIdentity('SellerMSP', cert, key);
     createIdentity(wallet, identityLabel, identity)
 }

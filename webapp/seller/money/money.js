@@ -3,7 +3,7 @@
 const path = require('path');
 const { Gateway, FileSystemWallet } = require('fabric-network');
 const connectionFabricNetwork = require('../../connectFabricNetwork');
-const sellerUserName = 'Admin@seller.yunxi.com';
+const sellerUserName = 'Admin@seller.admincom';
 const SELLER_WALLET_PATH = path.resolve(__dirname, '../wallet');
 const sellerWallet = new FileSystemWallet(SELLER_WALLET_PATH);
 const CHANNEL_NAME2 = 'channel-seller';

@@ -6,7 +6,7 @@ OrdererOrgs:
   # Orderer
   # --------------------------------------------------------
   - Name: Orderer
-    Domain: yunxi.com
+    Domain: admincom
     # ------------------------------------------------------
     # "Specs" - See PeerOrgs below for complete description
     # ------------------------------------------------------
@@ -20,7 +20,7 @@ PeerOrgs:
   # Seller
   # -----------------------------------------------------
   - Name: Seller
-    Domain: seller.yunxi.com
+    Domain: seller.admincom
     EnableNodeOUs: true
     # ---------------------------------------------------------------------------
     # "Specs"
@@ -70,14 +70,14 @@ PeerOrgs:
     # Buyer:
     # ---------------------------------------------------------------------------
   - Name: Buyer
-    Domain: buyer.yunxi.com
+    Domain: buyer.admincom
     EnableNodeOUs: true
     Template: 
       Count: 1
     Users:
       Count: 1
   - Name: Bank
-    Domain: bank.yunxi.com
+    Domain: bank.admincom
     EnableNodeOUs: true
     Template: 
       Count: 1

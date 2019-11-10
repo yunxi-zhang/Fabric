@@ -1,45 +1,45 @@
 version: '2'
 
 volumes:
-  orderer.yunxi.com:
-  bank.yunxi.com:
-  seller.yunxi.com:
-  buyer.yunxi.com:
+  orderer.admincom:
+  bank.admincom:
+  seller.admincom:
+  buyer.admincom:
 
 networks:
   seller-buyer-network:
 
 services:
 
-  orderer.yunxi.com:
+  orderer.admincom:
     extends:
       file:   base/docker-compose-base.yaml
-      service: orderer.yunxi.com
-    container_name: orderer.yunxi.com
+      service: orderer.admincom
+    container_name: orderer.admincom
     networks:
       - seller-buyer-network
 
-  peer0.bank.yunxi.com:
-    container_name: peer0.bank.yunxi.com
+  peer0.bank.admincom:
+    container_name: peer0.bank.admincom
     extends:
       file:  base/docker-compose-base.yaml
-      service: peer0.bank.yunxi.com
+      service: peer0.bank.admincom
     networks:
       - seller-buyer-network
 
-  peer0.seller.yunxi.com:
-    container_name: peer0.seller.yunxi.com
+  peer0.seller.admincom:
+    container_name: peer0.seller.admincom
     extends:
       file:  base/docker-compose-base.yaml
-      service: peer0.seller.yunxi.com
+      service: peer0.seller.admincom
     networks:
       - seller-buyer-network
 
-  peer0.buyer.yunxi.com:
-    container_name: peer0.buyer.yunxi.com
+  peer0.buyer.admincom:
+    container_name: peer0.buyer.admincom
     extends:
       file:  base/docker-compose-base.yaml
-      service: peer0.buyer.yunxi.com
+      service: peer0.buyer.admincom
     networks:
       - seller-buyer-network
 
@@ -54,16 +54,16 @@ services:
       #- FABRIC_LOGGING_SPEC=DEBUG
       - FABRIC_LOGGING_SPEC=INFO
       - CORE_PEER_ID=cli
-      - CORE_PEER_ADDRESS=peer0.bank.yunxi.com:7051
+      - CORE_PEER_ADDRESS=peer0.bank.admincom:7051
       - CORE_PEER_LOCALMSPID=BankMSP
       - CORE_PEER_TLS_ENABLED=true
-      - CORE_PEER_TLS_CERT_FILE=/opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/peerOrganizations/bank.yunxi.com/peers/peer0.bank.yunxi.com/tls/server.crt
-      - CORE_PEER_TLS_KEY_FILE=/opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/peerOrganizations/bank.yunxi.com/peers/peer0.bank.yunxi.com/tls/server.key
-      - CORE_PEER_TLS_ROOTCERT_FILE=/opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/peerOrganizations/bank.yunxi.com/peers/peer0.bank.yunxi.com/tls/ca.crt
-      - CORE_PEER_MSPCONFIGPATH=/opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/peerOrganizations/bank.yunxi.com/users/Admin@bank.yunxi.com/msp
+      - CORE_PEER_TLS_CERT_FILE=/opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/peerOrganizations/bank.admincom/peers/peer0.bank.admincom/tls/server.crt
+      - CORE_PEER_TLS_KEY_FILE=/opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/peerOrganizations/bank.admincom/peers/peer0.bank.admincom/tls/server.key
+      - CORE_PEER_TLS_ROOTCERT_FILE=/opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/peerOrganizations/bank.admincom/peers/peer0.bank.admincom/tls/ca.crt
+      - CORE_PEER_MSPCONFIGPATH=/opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/peerOrganizations/bank.admincom/users/Admin@bank.admincom/msp
       #- CORE_PEER_TLS_CLIENTAUTHREQUIRED=true
-      - CORE_PEER_TLS_CLIENTCERT_FILE=/opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/peerOrganizations/bank.yunxi.com/users/Admin@bank.yunxi.com/tls/client.crt
-      - CORE_PEER_TLS_CLIENTKEY_FILE=/opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/peerOrganizations/bank.yunxi.com/users/Admin@bank.yunxi.com/tls/client.key
+      - CORE_PEER_TLS_CLIENTCERT_FILE=/opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/peerOrganizations/bank.admincom/users/Admin@bank.admincom/tls/client.crt
+      - CORE_PEER_TLS_CLIENTKEY_FILE=/opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/peerOrganizations/bank.admincom/users/Admin@bank.admincom/tls/client.key
     working_dir: /opt/gopath/src/github.com/hyperledger/fabric/peer
     command: /bin/bash
     volumes:
@@ -73,9 +73,9 @@ services:
         - ./scripts:/opt/gopath/src/github.com/hyperledger/fabric/peer/scripts/
         - ./channel-artifacts:/opt/gopath/src/github.com/hyperledger/fabric/peer/channel-artifacts
     depends_on:
-      - orderer.yunxi.com
-      - peer0.bank.yunxi.com
-      - peer0.seller.yunxi.com
-      - peer0.buyer.yunxi.com
+      - orderer.admincom
+      - peer0.bank.admincom
+      - peer0.seller.admincom
+      - peer0.buyer.admincom
     networks:
       - seller-buyer-network

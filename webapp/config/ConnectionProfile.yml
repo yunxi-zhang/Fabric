@@ -40,7 +40,7 @@ channels:
       #
       # [Required]. Orderer logical name
       #
-        - orderer.yunxi.com
+        - orderer.admincom
       #
       # [Optional]. Peers and their roles
       #
@@ -48,7 +48,7 @@ channels:
     #
     # [Required]. Peer logical name
     #
-      peer0.seller.yunxi.com:
+      peer0.seller.admincom:
         #
         # [Optional]. Is this an endorsing peer? (It must have chaincode
         # installed.) Default: true
@@ -71,7 +71,7 @@ channels:
         #
         eventSource: true
       #
-      peer0.bank.yunxi.com:
+      peer0.bank.admincom:
         endorsingPeer: true
         chaincodeQuyer: true
         ledgerQuery: true
@@ -79,15 +79,15 @@ channels:
 
   channel-buyer:
     orderers:
-        - orderer.yunxi.com
+        - orderer.admincom
     peers:
-      peer0.buyer.yunxi.com:
+      peer0.buyer.admincom:
         endorsingPeer: true
         chaincodeQuery: true
         ledgerQuery: true
         eventSource: true
         
-      peer0.bank.yunxi.com:
+      peer0.bank.admincom:
         endorsingPeer: true
         chaincodeQuyer: true
         ledgerQuery: true
@@ -109,38 +109,38 @@ organizations:
     # [Required]. The Bank peers
     #
     peers:
-      - peer0.bank.yunxi.com
+      - peer0.bank.admincom
     #
     # [Optional]. Fabric-CA Certificate Authorities.
     #
     certificateAuthorities:
-      - ca.bank.yunxi.com
+      - ca.bank.admincom
     signedCert: 
-      path: ../crypto-config/peerOrganizations/bank.yunxi.com/users/Admin@bank.yunxi.com/msp/signcerts/Admin@bank.yunxi.com-cert.pem
+      path: ../crypto-config/peerOrganizations/bank.admincom/users/Admin@bank.admincom/msp/signcerts/Admin@bank.admincom-cert.pem
 
   Seller:
     mspid: SellerMSP
     peers:
-      - peer0.seller.yunxi.com
+      - peer0.seller.admincom
     certificateAuthorities:
-      - ca.seller.yunxi.com
+      - ca.seller.admincom
     signedCert: 
-      path: ../crypto-config/peerOrganizations/seller.yunxi.com/users/Admin@seller.yunxi.com/msp/signcerts/Admin@seller.yunxi.com-cert.pem
+      path: ../crypto-config/peerOrganizations/seller.admincom/users/Admin@seller.admincom/msp/signcerts/Admin@seller.admincom-cert.pem
 
   Buyer:
     mspid: BuyerMSP
     peers:
-      - peer0.buyer.yunxi.com
+      - peer0.buyer.admincom
     certificateAuthorities:
-      - ca.buyer.yunxi.com
+      - ca.buyer.admincom
     signedCert: 
-      path: ../crypto-config/peerOrganizations/buyer.yunxi.com/users/Admin@buyer.yunxi.com/msp/signcerts/Admin@buyer.yunxi.com-cert.pem
+      path: ../crypto-config/peerOrganizations/buyer.admincom/users/Admin@buyer.admincom/msp/signcerts/Admin@buyer.admincom-cert.pem
 
 orderers:
   #
   # [Required]. Name of Seller orderer
   #
-  orderer.yunxi.com:
+  orderer.admincom:
     #
     # [Required]. This orderer's IP address
     #
@@ -149,10 +149,10 @@ orderers:
     # [Optional]. gRPC connection properties used for communication
     #
     grpcOptions:
-      ssl-target-name-override: orderer.yunxi.com
+      ssl-target-name-override: orderer.admincom
       grpc-max-send-message-length: 150000
     tlsCACerts: 
-      path: ../crypto-config/ordererOrganizations/yunxi.com/msp/tlscacerts/tlsca.yunxi.com-cert.pem
+      path: ../crypto-config/ordererOrganizations/admincom/msp/tlscacerts/tlsca.admincom-cert.pem
 #
 # [Required]. Peer physical information, by peer name. At least one peer is
 # required.
@@ -161,7 +161,7 @@ peers:
   #
   # [Required]. Seller peer physical properties
   #
-  peer0.bank.yunxi.com:
+  peer0.bank.admincom:
     #
     # [Required]. Peer's IP address
     #
@@ -171,32 +171,32 @@ peers:
     # [Optional]. gRPC connection properties used for communication
     #
     grpcOptions:
-      ssl-target-name-override: peer0.bank.yunxi.com
+      ssl-target-name-override: peer0.bank.admincom
       request-timeout: 120001
     tlsCACerts: 
-      path: ../crypto-config/peerOrganizations/bank.yunxi.com/peers/peer0.bank.yunxi.com/msp/tlscacerts/tlsca.bank.yunxi.com-cert.pem
+      path: ../crypto-config/peerOrganizations/bank.admincom/peers/peer0.bank.admincom/msp/tlscacerts/tlsca.bank.admincom-cert.pem
   #
   # [Required]. Seller peer physical properties
   #
-  peer0.seller.yunxi.com:
+  peer0.seller.admincom:
     url: grpcs://localhost:8051
     eventUrl: grpcs://localhost:8053
     grpcOptions:
-      ssl-target-name-override: peer0.seller.yunxi.com
+      ssl-target-name-override: peer0.seller.admincom
       request-timeout: 120001
     tlsCACerts: 
-      path: ../crypto-config/peerOrganizations/seller.yunxi.com/peers/peer0.seller.yunxi.com/msp/tlscacerts/tlsca.seller.yunxi.com-cert.pem
+      path: ../crypto-config/peerOrganizations/seller.admincom/peers/peer0.seller.admincom/msp/tlscacerts/tlsca.seller.admincom-cert.pem
   #
   # [Required]. Buyer peer physical properties
   #
-  peer0.buyer.yunxi.com:
+  peer0.buyer.admincom:
     url: grpcs://localhost:9051
     eventUrl: grpcs://localhost:9053
     grpcOptions:
-      ssl-target-name-override: peer0.buyer.yunxi.com
+      ssl-target-name-override: peer0.buyer.admincom
       request-timeout: 120001
     tlsCACerts: 
-      path: ../crypto-config/peerOrganizations/buyer.yunxi.com/peers/peer0.buyer.yunxi.com/msp/tlscacerts/tlsca.buyer.yunxi.com-cert.pem
+      path: ../crypto-config/peerOrganizations/buyer.admincom/peers/peer0.buyer.admincom/msp/tlscacerts/tlsca.buyer.admincom-cert.pem
 #
 # [Optional]. Fabric-CA Certificate Authority physical information, by name.
 # This information can be used to (e.g.) enroll new users. Communication is via
@@ -206,7 +206,7 @@ peers:
 #   #
 #   # [Required]. Seller's CA
 #   #
-#   ca.seller.yunxi.com:
+#   ca.seller.admincom:
 #   #
 #   # [Required]. CA IP address
 #   #
@@ -217,7 +217,7 @@ peers:
 #   httpOptions:
 #     verify: false
 #   tlsCACerts:
-#     path: crypto-config/peerOrganizations/seller.yunxi.com/ca.seller.yunxi.com-cert.pem
+#     path: crypto-config/peerOrganizations/seller.admincom/ca.seller.admincom-cert.pem
 #   #
 #   # [Optional]. Fabric-CA supports Certificate Signing Requests (CSRs). A
 #   # registrar is needed to enroll new users.
@@ -233,7 +233,7 @@ peers:
 #   #
 #   # [Required]. Buyer's CA
 #   #
-#   ca.buyer.yunxi.com:
+#   ca.buyer.admincom:
 #   #
 #   # [Required]. CA IP address
 #   #
@@ -244,7 +244,7 @@ peers:
 #   httpOptions:
 #     verify: false
 #   tlsCACerts:
-#     path: crypto-config/peerOrganizations/buyer.yunxi.com/ca.buyer.yunxi.com-cert.pem
+#     path: crypto-config/peerOrganizations/buyer.admincom/ca.buyer.admincom-cert.pem
 #   #
 #   # [Optional]. Fabric-CA supports Certificate Signing Requests (CSRs). A
 #   # registrar is needed to enroll new users.

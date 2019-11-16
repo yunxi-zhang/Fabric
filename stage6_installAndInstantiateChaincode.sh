@@ -23,13 +23,13 @@ CONTRACT_PATH="github.com/chaincode/exchange"
 
 stepInfo "Install Chaincode On Peer0 Of Bank"
 stepInfo "Use The Absolute Path"
-stepInfo "Chaincode file is in the path: $ABSOLUTE_PATH_PREFIX/$CHAINCODE_PATH/$BUILD_LANGUAGE/"
-docker exec -it cli peer chaincode install -n $CHAINCODE_NAME -v $CHAINCODE_VERSION -l $BUILD_LANGUAGE -p $ABSOLUTE_PATH_PREFIX/$CHAINCODE_PATH/$BUILD_LANGUAGE/
+stepInfo "Chaincode file is in the path: $ABSOLUTE_PATH_PREFIX/$CHAINCODE_PATH/"
+docker exec -it cli peer chaincode install -n $CHAINCODE_NAME -v $CHAINCODE_VERSION -l $BUILD_LANGUAGE -p $ABSOLUTE_PATH_PREFIX/$CHAINCODE_PATH/
 
 
 stepInfo "Install Chaincode On Peer0 Of Seller"
 stepInfo "Use The Absolute Path"
-stepInfo "Chaincode file is in the path: $ABSOLUTE_PATH_PREFIX/$CHAINCODE_PATH/$BUILD_LANGUAGE/"
+stepInfo "Chaincode file is in the path: $ABSOLUTE_PATH_PREFIX/$CHAINCODE_PATH/"
 docker exec -it \
 -e CORE_PEER_MSPCONFIGPATH=/opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/peerOrganizations/seller.admincom/users/Admin@seller.admincom/msp \
 -e CORE_PEER_ADDRESS=peer0.seller.admincom:7051 \
@@ -37,12 +37,12 @@ docker exec -it \
 -e CORE_PEER_TLS_ROOTCERT_FILE=/opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/peerOrganizations/seller.admincom/peers/peer0.seller.admincom/tls/ca.crt \
 -e CORE_PEER_TLS_KEY_FILE=/opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/peerOrganizations/seller.admincom/peers/peer0.seller.admincom/tls/server.key \
 -e CORE_PEER_TLS_CERT_FILE=/opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/peerOrganizations/seller.admincom/peers/peer0.seller.admincom/tls/server.crt \
-cli peer chaincode install -n $CHAINCODE_NAME -v $CHAINCODE_VERSION -l $BUILD_LANGUAGE -p $ABSOLUTE_PATH_PREFIX/$CHAINCODE_PATH/$BUILD_LANGUAGE/
+cli peer chaincode install -n $CHAINCODE_NAME -v $CHAINCODE_VERSION -l $BUILD_LANGUAGE -p $ABSOLUTE_PATH_PREFIX/$CHAINCODE_PATH/
 
 
 stepInfo "Install Chaincode On Peer0 Of Buyer"
 stepInfo "Use The Absolute Path"
-stepInfo "Chaincode file is in the path: $ABSOLUTE_PATH_PREFIX/$CHAINCODE_PATH/$BUILD_LANGUAGE/"
+stepInfo "Chaincode file is in the path: $ABSOLUTE_PATH_PREFIX/$CHAINCODE_PATH/"
 docker exec -it \
 -e CORE_PEER_MSPCONFIGPATH=/opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/peerOrganizations/buyer.admincom/users/Admin@buyer.admincom/msp \
 -e CORE_PEER_ADDRESS=peer0.buyer.admincom:7051 \
@@ -50,7 +50,7 @@ docker exec -it \
 -e CORE_PEER_TLS_ROOTCERT_FILE=/opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/peerOrganizations/buyer.admincom/peers/peer0.buyer.admincom/tls/ca.crt \
 -e CORE_PEER_TLS_KEY_FILE=/opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/peerOrganizations/buyer.admincom/peers/peer0.buyer.admincom/tls/server.key \
 -e CORE_PEER_TLS_CERT_FILE=/opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/peerOrganizations/buyer.admincom/peers/peer0.buyer.admincom/tls/server.crt \
-cli peer chaincode install -n $CHAINCODE_NAME -v $CHAINCODE_VERSION -l $BUILD_LANGUAGE -p $ABSOLUTE_PATH_PREFIX/$CHAINCODE_PATH/$BUILD_LANGUAGE/
+cli peer chaincode install -n $CHAINCODE_NAME -v $CHAINCODE_VERSION -l $BUILD_LANGUAGE -p $ABSOLUTE_PATH_PREFIX/$CHAINCODE_PATH/
 
 stepInfo "Instantiate Chaincode On Peer0 Of Bank on channel $CHANNEL_NAME1"
 INIT_CHAINCODE_PARAMETERS='{"Args":["init", "sellerBalance", "100"]}'

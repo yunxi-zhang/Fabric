@@ -15,6 +15,8 @@ webappseller/
 
 ### Unit Tests ###
 find.log
+chaincode-unit-tests/chaincode_*.js
+!chaincode-unit-tests/chaincode_*_test.js
 
 ### macOS ###
 # General

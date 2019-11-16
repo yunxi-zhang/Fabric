@@ -16,7 +16,7 @@
   },
   "scripts": {
     "start": "node chaincode.js",
-    "test": "rm report.html && mocha ./* --reporter mocha-simple-html-reporter --reporter-options output=report.html"
+    "test": "mocha ./*"
   },
   "author": "Yunxi Zhang",
   "license": "ISC"

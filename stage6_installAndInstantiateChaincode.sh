@@ -13,129 +13,44 @@ CONTRACT_NAME=exchange
 stepInfo "The chaincode name is: $CHAINCODE_NAME"
 stepInfo "The contract name is: $CONTRACT_NAME"
 
-# type in a language for build
-# stepInfo "Please select a number for a build language:"
-# export PS3="Please make a selection =>"
-# select BUILD_LANGUAGE in golang node java
-# do
-#     case $BUILD_LANGUAGE in
-#         golang) stepInfo "You've picked $BUILD_LANGUAGE"; break;;
-#         node) stepInfo "You've picked $BUILD_LANGUAGE"; break;;
-#         java) stepInfo "You've picked $BUILD_LANGUAGE"; break;;
-#         *) stepInfo "Invalid option. Try again.";continue;;
-#     esac
-# done
-
 # node is the only currently used language in this repo
 BUILD_LANGUAGE=node
 
-# Golang uses a relative path, and the ABSOLUTE_PATH_PREFIX will be auto added to the CHAINCODE_PATH
 # ABSOLUTE_PATH_PREFIX is only used when node or java has been selected as the build language
 ABSOLUTE_PATH_PREFIX="/opt/gopath/src"
 CHAINCODE_PATH="github.com/chaincode/buy_sell"
 CONTRACT_PATH="github.com/chaincode/exchange"
 
 stepInfo "Install Chaincode On Peer0 Of Bank"
-    if [ $BUILD_LANGUAGE = "golang" ]
-    then 
-        stepInfo "Use The Relative Path"
-        stepInfo "Chaincode file is in the path: $CHAINCODE_PATH/$BUILD_LANGUAGE/"
-        docker exec -it cli peer chaincode install -n $CHAINCODE_NAME -v $CHAINCODE_VERSION -l $BUILD_LANGUAGE -p $CHAINCODE_PATH/$BUILD_LANGUAGE/
-    else
-        stepInfo "Use The Absolute Path"
-        stepInfo "Chaincode file is in the path: $ABSOLUTE_PATH_PREFIX/$CHAINCODE_PATH/$BUILD_LANGUAGE/"
-        docker exec -it cli peer chaincode install -n $CHAINCODE_NAME -v $CHAINCODE_VERSION -l $BUILD_LANGUAGE -p $ABSOLUTE_PATH_PREFIX/$CHAINCODE_PATH/$BUILD_LANGUAGE/
-    fi
+stepInfo "Use The Absolute Path"
+stepInfo "Chaincode file is in the path: $ABSOLUTE_PATH_PREFIX/$CHAINCODE_PATH/$BUILD_LANGUAGE/"
+docker exec -it cli peer chaincode install -n $CHAINCODE_NAME -v $CHAINCODE_VERSION -l $BUILD_LANGUAGE -p $ABSOLUTE_PATH_PREFIX/$CHAINCODE_PATH/$BUILD_LANGUAGE/
+
 
 stepInfo "Install Chaincode On Peer0 Of Seller"
-    if [ $BUILD_LANGUAGE = "golang" ]
-    then 
-        stepInfo "Use The Relative Path"
-        stepInfo "Chaincode file is in the path: $CHAINCODE_PATH/$BUILD_LANGUAGE/"
-        docker exec -it cli \
-        -e CORE_PEER_MSPCONFIGPATH=/opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/peerOrganizations/seller.admincom/users/Admin@seller.admincom/msp \
-        -e CORE_PEER_ADDRESS=peer0.seller.admincom:7051 \
-        -e CORE_PEER_LOCALMSPID=SellerMSP \
-        -e CORE_PEER_TLS_ROOTCERT_FILE=/opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/peerOrganizations/seller.admincom/peers/peer0.seller.admincom/tls/ca.crt \
-        -e CORE_PEER_TLS_KEY_FILE=/opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/peerOrganizations/seller.admincom/peers/peer0.seller.admincom/tls/server.key \
-        -e CORE_PEER_TLS_CERT_FILE=/opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/peerOrganizations/seller.admincom/peers/peer0.seller.admincom/tls/server.crt \
-        cli peer chaincode install -n $CHAINCODE_NAME -v $CHAINCODE_VERSION -l $BUILD_LANGUAGE -p $CHAINCODE_PATH/$BUILD_LANGUAGE/
-    else
-        stepInfo "Use The Absolute Path"
-        stepInfo "Chaincode file is in the path: $ABSOLUTE_PATH_PREFIX/$CHAINCODE_PATH/$BUILD_LANGUAGE/"
-        docker exec -it \
-        -e CORE_PEER_MSPCONFIGPATH=/opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/peerOrganizations/seller.admincom/users/Admin@seller.admincom/msp \
-        -e CORE_PEER_ADDRESS=peer0.seller.admincom:7051 \
-        -e CORE_PEER_LOCALMSPID=SellerMSP \
-        -e CORE_PEER_TLS_ROOTCERT_FILE=/opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/peerOrganizations/seller.admincom/peers/peer0.seller.admincom/tls/ca.crt \
-        -e CORE_PEER_TLS_KEY_FILE=/opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/peerOrganizations/seller.admincom/peers/peer0.seller.admincom/tls/server.key \
-        -e CORE_PEER_TLS_CERT_FILE=/opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/peerOrganizations/seller.admincom/peers/peer0.seller.admincom/tls/server.crt \
-        cli peer chaincode install -n $CHAINCODE_NAME -v $CHAINCODE_VERSION -l $BUILD_LANGUAGE -p $ABSOLUTE_PATH_PREFIX/$CHAINCODE_PATH/$BUILD_LANGUAGE/
-    fi
+stepInfo "Use The Absolute Path"
+stepInfo "Chaincode file is in the path: $ABSOLUTE_PATH_PREFIX/$CHAINCODE_PATH/$BUILD_LANGUAGE/"
+docker exec -it \
+-e CORE_PEER_MSPCONFIGPATH=/opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/peerOrganizations/seller.admincom/users/Admin@seller.admincom/msp \
+-e CORE_PEER_ADDRESS=peer0.seller.admincom:7051 \
+-e CORE_PEER_LOCALMSPID=SellerMSP \
+-e CORE_PEER_TLS_ROOTCERT_FILE=/opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/peerOrganizations/seller.admincom/peers/peer0.seller.admincom/tls/ca.crt \
+-e CORE_PEER_TLS_KEY_FILE=/opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/peerOrganizations/seller.admincom/peers/peer0.seller.admincom/tls/server.key \
+-e CORE_PEER_TLS_CERT_FILE=/opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/peerOrganizations/seller.admincom/peers/peer0.seller.admincom/tls/server.crt \
+cli peer chaincode install -n $CHAINCODE_NAME -v $CHAINCODE_VERSION -l $BUILD_LANGUAGE -p $ABSOLUTE_PATH_PREFIX/$CHAINCODE_PATH/$BUILD_LANGUAGE/
+
 
 stepInfo "Install Chaincode On Peer0 Of Buyer"
-if [ $BUILD_LANGUAGE = "golang" ]
-then 
-    stepInfo "Use The Relative Path"
-    stepInfo "Chaincode file is in the path: $CHAINCODE_PATH/$BUILD_LANGUAGE/"
-    docker exec -it \
-    -e CORE_PEER_MSPCONFIGPATH=/opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/peerOrganizations/buyer.admincom/users/Admin@buyer.admincom/msp \
-    -e CORE_PEER_ADDRESS=peer0.buyer.admincom:7051 \
-    -e CORE_PEER_LOCALMSPID=BuyerMSP \
-    -e CORE_PEER_TLS_ROOTCERT_FILE=/opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/peerOrganizations/buyer.admincom/peers/peer0.buyer.admincom/tls/ca.crt \
-    -e CORE_PEER_TLS_KEY_FILE=/opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/peerOrganizations/buyer.admincom/peers/peer0.buyer.admincom/tls/server.key \
-    -e CORE_PEER_TLS_CERT_FILE=/opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/peerOrganizations/buyer.admincom/peers/peer0.buyer.admincom/tls/server.crt \
-    cli peer chaincode install -n $CHAINCODE_NAME -v $CHAINCODE_VERSION -l $BUILD_LANGUAGE -p $CHAINCODE_PATH/$BUILD_LANGUAGE/
-else
-    stepInfo "Use The Absolute Path"
-    stepInfo "Chaincode file is in the path: $ABSOLUTE_PATH_PREFIX/$CHAINCODE_PATH/$BUILD_LANGUAGE/"
-    docker exec -it \
-    -e CORE_PEER_MSPCONFIGPATH=/opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/peerOrganizations/buyer.admincom/users/Admin@buyer.admincom/msp \
-    -e CORE_PEER_ADDRESS=peer0.buyer.admincom:7051 \
-    -e CORE_PEER_LOCALMSPID=BuyerMSP \
-    -e CORE_PEER_TLS_ROOTCERT_FILE=/opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/peerOrganizations/buyer.admincom/peers/peer0.buyer.admincom/tls/ca.crt \
-    -e CORE_PEER_TLS_KEY_FILE=/opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/peerOrganizations/buyer.admincom/peers/peer0.buyer.admincom/tls/server.key \
-    -e CORE_PEER_TLS_CERT_FILE=/opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/peerOrganizations/buyer.admincom/peers/peer0.buyer.admincom/tls/server.crt \
-    cli peer chaincode install -n $CHAINCODE_NAME -v $CHAINCODE_VERSION -l $BUILD_LANGUAGE -p $ABSOLUTE_PATH_PREFIX/$CHAINCODE_PATH/$BUILD_LANGUAGE/
-fi
-
-# stepInfo "Install Contract On Peer0 Of Seller"
-#     if [ $BUILD_LANGUAGE = "golang" ]
-#     then 
-#         stepInfo "Use The Relative Path"
-#         stepInfo "Chaincode file is in the path: $CHAINCODE_PATH/$BUILD_LANGUAGE/"
-#         docker exec -it cli peer chaincode install -n $CONTRACT_NAME -v $CHAINCODE_VERSION -l $BUILD_LANGUAGE -p $CONTRACT_PATH/$BUILD_LANGUAGE/
-#     else
-#         stepInfo "Use The Absolute Path"
-#         stepInfo "Chaincode file is in the path: $ABSOLUTE_PATH_PREFIX/$CHAINCODE_PATH/$BUILD_LANGUAGE/"
-#         docker exec -it cli peer chaincode install -n $CONTRACT_NAME -v $CHAINCODE_VERSION -l $BUILD_LANGUAGE -p $ABSOLUTE_PATH_PREFIX/$CONTRACT_PATH/$BUILD_LANGUAGE/
-#     fi
-
-# stepInfo "Install Contract On Peer0 Of Buyer"
-# if [ $BUILD_LANGUAGE = "golang" ]
-# then 
-#     stepInfo "Use The Relative Path"
-#     stepInfo "Chaincode file is in the path: $CONTRACT_PATH/$BUILD_LANGUAGE/"
-#     docker exec -it \
-#     -e CORE_PEER_MSPCONFIGPATH=/opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/peerOrganizations/buyer.admincom/users/Admin@buyer.admincom/msp \
-#     -e CORE_PEER_ADDRESS=peer0.buyer.admincom:7051 \
-#     -e CORE_PEER_LOCALMSPID=BuyerMSP \
-#     -e CORE_PEER_TLS_ROOTCERT_FILE=/opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/peerOrganizations/buyer.admincom/peers/peer0.buyer.admincom/tls/ca.crt \
-#     -e CORE_PEER_TLS_KEY_FILE=/opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/peerOrganizations/buyer.admincom/peers/peer0.buyer.admincom/tls/server.key \
-#     -e CORE_PEER_TLS_CERT_FILE=/opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/peerOrganizations/buyer.admincom/peers/peer0.buyer.admincom/tls/server.crt \
-#     cli peer chaincode install -n $CONTRACT_NAME -v $CHAINCODE_VERSION -l $BUILD_LANGUAGE -p $CONTRACT_PATH/$BUILD_LANGUAGE/
-# else
-#     stepInfo "Use The Absolute Path"
-#     stepInfo "Chaincode file is in the path: $ABSOLUTE_PATH_PREFIX/$CONTRACT_PATH/$BUILD_LANGUAGE/"
-#     docker exec -it \
-#     -e CORE_PEER_MSPCONFIGPATH=/opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/peerOrganizations/buyer.admincom/users/Admin@buyer.admincom/msp \
-#     -e CORE_PEER_ADDRESS=peer0.buyer.admincom:7051 \
-#     -e CORE_PEER_LOCALMSPID=BuyerMSP \
-#     -e CORE_PEER_TLS_ROOTCERT_FILE=/opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/peerOrganizations/buyer.admincom/peers/peer0.buyer.admincom/tls/ca.crt \
-#     -e CORE_PEER_TLS_KEY_FILE=/opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/peerOrganizations/buyer.admincom/peers/peer0.buyer.admincom/tls/server.key \
-#     -e CORE_PEER_TLS_CERT_FILE=/opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/peerOrganizations/buyer.admincom/peers/peer0.buyer.admincom/tls/server.crt \
-#     cli peer chaincode install -n $CONTRACT_NAME -v $CHAINCODE_VERSION -l $BUILD_LANGUAGE -p $ABSOLUTE_PATH_PREFIX/$CONTRACT_PATH/$BUILD_LANGUAGE/
-# fi
+stepInfo "Use The Absolute Path"
+stepInfo "Chaincode file is in the path: $ABSOLUTE_PATH_PREFIX/$CHAINCODE_PATH/$BUILD_LANGUAGE/"
+docker exec -it \
+-e CORE_PEER_MSPCONFIGPATH=/opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/peerOrganizations/buyer.admincom/users/Admin@buyer.admincom/msp \
+-e CORE_PEER_ADDRESS=peer0.buyer.admincom:7051 \
+-e CORE_PEER_LOCALMSPID=BuyerMSP \
+-e CORE_PEER_TLS_ROOTCERT_FILE=/opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/peerOrganizations/buyer.admincom/peers/peer0.buyer.admincom/tls/ca.crt \
+-e CORE_PEER_TLS_KEY_FILE=/opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/peerOrganizations/buyer.admincom/peers/peer0.buyer.admincom/tls/server.key \
+-e CORE_PEER_TLS_CERT_FILE=/opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/peerOrganizations/buyer.admincom/peers/peer0.buyer.admincom/tls/server.crt \
+cli peer chaincode install -n $CHAINCODE_NAME -v $CHAINCODE_VERSION -l $BUILD_LANGUAGE -p $ABSOLUTE_PATH_PREFIX/$CHAINCODE_PATH/$BUILD_LANGUAGE/
 
 stepInfo "Instantiate Chaincode On Peer0 Of Bank on channel $CHANNEL_NAME1"
 INIT_CHAINCODE_PARAMETERS='{"Args":["init", "sellerBalance", "100"]}'
@@ -144,10 +59,6 @@ docker exec -it cli peer chaincode instantiate -o orderer.admincom:7050 --tls --
 stepInfo "Instantiate Chaincode On Peer0 Of Bank on channel $CHANNEL_NAME2"
 INIT_CHAINCODE_PARAMETERS='{"Args":["init", "buyerBalance", "200"]}'
 docker exec -it cli peer chaincode instantiate -o orderer.admincom:7050 --tls --cafile /opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/ordererOrganizations/admincom/orderers/orderer.admincom/msp/tlscacerts/tlsca.admincom-cert.pem -C $CHANNEL_NAME2 -n $CHAINCODE_NAME -l $BUILD_LANGUAGE -v $CHAINCODE_VERSION -c "$INIT_CHAINCODE_PARAMETERS" -P 'OR ("BuyerMSP.peer","BankMSP.peer")'
-
-# stepInfo "Instantiate Contract On Peer0 Of Seller"
-# INIT_CHAINCODE_PARAMETERS='{"Args":["init", "sellerBalance", "100", "buyerBalance", "100"]}'
-# docker exec -it cli peer chaincode instantiate -o orderer.admincom:7050 --tls --cafile /opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/ordererOrganizations/admincom/orderers/orderer.admincom/msp/tlscacerts/tlsca.admincom-cert.pem -C $CHANNEL_NAME -n $CONTRACT_NAME -l $BUILD_LANGUAGE -v $CHAINCODE_VERSION -c "$INIT_CHAINCODE_PARAMETERS" -P 'OR ("SellerMSP.peer","BuyerMSP.peer")'
 
 stepInfo "Sleeping for 5 seconds, waiting for chaincode instantation to complete ..."
 sleep 5

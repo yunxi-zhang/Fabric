@@ -13,6 +13,9 @@ webappbank/
 webappbuyer/
 webappseller/
 
+### Unit Tests ###
+find.log
+
 ### macOS ###
 # General
 .DS_Store

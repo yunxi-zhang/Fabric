@@ -117,5 +117,5 @@ The following shows where the "OrdererGenesis" and "ChannelSeller" are used on l
 | Orgnaization     | Port |
 | ----------- | ----------- |
 | Bank | 3001 |
-| Seller | 3002 |
-| Buyer | 3003 |
+| Buyer | 3002 |
+| Seller | 3003 |

@@ -119,3 +119,11 @@ The following shows where the "OrdererGenesis" and "ChannelSeller" are used on l
 | Bank | 3001 |
 | Buyer | 3002 |
 | Seller | 3003 |
+
+## Testing ##
+To test if a Fabric Blockchain network as well as Web Servers are up and running, one can type in the below API for Bank in a browser or a tool like Postman for testing.
+```
+http://localhost/bank/getSellerBalance
+```
+
+If everything works, one should be able to see a number - 150 shown as a response.

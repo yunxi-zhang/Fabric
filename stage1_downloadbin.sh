@@ -8,7 +8,8 @@ export VERSION=1.4.0
 export ARCH=$(echo "$(uname -s|tr '[:upper:]' '[:lower:]'|sed 's/mingw64_nt.*/windows/')-$(uname -m | sed 's/x86_64/amd64/g')" | awk '{print tolower($0)}')
 
 echo "===> Downloading platform binaries"
-export URL="https://nexus.hyperledger.org/content/repositories/releases/org/hyperledger/fabric/hyperledger-fabric/${ARCH}-${VERSION}/hyperledger-fabric-${ARCH}-${VERSION}.tar.gz"
+export URL="https://github.com/hyperledger/fabric/releases/download/v$VERSION/hyperledger-fabric-darwin-amd64-$VERSION.tar.gz"
 echo $URL
-curl  $URL| tar xz
-
+curl -L $URL  > hyperledger-fabric-darwin-amd64-$VERSION.tar.gz
+tar -xf hyperledger-fabric-darwin-amd64-$VERSION.tar.gz
+rm -rf hyperledger-fabric-darwin-amd64-$VERSION.tar.gz

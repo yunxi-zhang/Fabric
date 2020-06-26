@@ -3,9 +3,9 @@ var router = express.Router();
 var money = require('../money/money');
 router.use(express.json());
 
-router.get("/getBalance", async (req, res, next) => {
+router.get("/balance", async (req, res, next) => {
     let balance = await money.getSellerBalance();
-    res.json(JSON.parse(balance));
+    res.json({"balance":balance});
 });
 
 module.exports = router;

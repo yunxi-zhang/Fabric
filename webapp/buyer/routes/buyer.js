@@ -14,7 +14,7 @@ router.get("/balance", async (req, res) => {
 router.post("/updateBalance", async (req, res) => {
     // req.body should look like
     // {
-    //     "key": "xBalance",
+    //     "key": "buyerBalance",
     //     "value": "20"
     // }
     let userInput = JSON.stringify(req.body);

@@ -1,5 +1,5 @@
 ## Repo Description
-This repo is mainly used to run a fabric network and web services for all the orgnizations in a Linux or Mac machine as to set up a local development environment for developers.
+This repo is mainly used to run a fabric network and web services for all the orgnizations in a Linux or Mac machine as to set up a local development environment for developers. It can work with my [ReactApp repo](https://github.com/yunxi-zhang/ReactApp) together to be used as a simple DLT demo.
 
 ## Prerequisites
 To run this repo, a user has to install the below tools on a local machine.

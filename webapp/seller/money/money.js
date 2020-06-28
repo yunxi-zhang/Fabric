@@ -8,7 +8,7 @@ const SELLER_WALLET_PATH = path.resolve(__dirname, '../wallet');
 const sellerWallet = new FileSystemWallet(SELLER_WALLET_PATH);
 const CHANNEL_NAME2 = 'channel-seller';
 const CHAINCODE_NAME = 'cc';
-const CHAINCODE_QUERY_FUNCTION_NAME = 'get';
+const CHAINCODE_QUERY_FUNCTION_NAME = 'getBalance';
 const SELLER_BALANCE_QUERY_KEY = 'sellerBalance';
 
 // A gateway defines the peers used to access Fabric networks

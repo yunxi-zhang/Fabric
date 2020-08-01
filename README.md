@@ -7,6 +7,7 @@ To run this repo, a user has to install the below tools on a local machine.
 2. **node version**: 10.17.0.
 3. **docker version**: Docker version 19.03.4, build 9013bf5.
 4. **docker compose version**: version 1.24.1, build 4667896b.
+5. **Hyperledger Fabric**: only have successfully tested for version 1.4.
 
 ## Repo Structure ##
 This section clarifies what are the purposes of folders and files used in this repo.

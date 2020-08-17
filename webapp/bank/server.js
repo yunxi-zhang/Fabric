@@ -3,7 +3,7 @@ var app = express(),
     port = 3001;
 const bank = require('./bank/routes/bank.js');
 
-app.use('/bank', bank);
+app.use('/', bank);
 app.use(express.json());
 
 app.listen(port, ()=> {

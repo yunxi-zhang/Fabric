@@ -3,7 +3,7 @@ var app = express(),
     port = 3003;
 const seller = require('./seller/routes/seller.js');
 
-app.use('/seller', seller);
+app.use('/', seller);
 app.use(express.json());
 
 app.listen(port, ()=> {
